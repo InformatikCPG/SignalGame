@@ -5,20 +5,20 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class ServerAcceptClient extends Thread {
-
+	
 	Server server;
 	int port;
-
+	
 	ServerAcceptClient(Server server, int port) {
 		this.server = server;
 		this.port = port;
 	}
-
+	
 	@Override
 	public void run() {
 		try {
 			ServerSocket s = new ServerSocket(port);
-
+			
 			while (server.running) {
 				Socket socket = s.accept();
 				socket.setTcpNoDelay(true);
