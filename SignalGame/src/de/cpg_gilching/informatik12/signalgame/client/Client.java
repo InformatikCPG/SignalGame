@@ -7,14 +7,17 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
+import javax.swing.JOptionPane;
+
 public class Client extends Thread {
 	
 	private Socket socket;
 	private DataInputStream dataIn;
 	private DataOutputStream dataOut;
 	private String spielername;
+	private ClientFenster clientFenster;
 	
-	public Client(String IP, int port, String spielername) {
+	public Client(String IP, int port, String spielername, LoginFenster loginFenster) {
 		try {
 			System.out.println("Client verbindet zu " + IP + ":" + port + " mit dem Spielernamen " + spielername);
 			socket = new Socket(IP, port);
@@ -29,8 +32,13 @@ public class Client extends Thread {
 			dataOut.writeInt(0);
 			dataOut.writeUTF(spielername);
 			System.out.println("Verbindung zum Server erfolgreich.");
+
+			loginFenster.getFenster().dispose();
+			clientFenster = new ClientFenster();
+			
 		} catch (IOException e) {
 			e.printStackTrace();
+			JOptionPane.showMessageDialog(loginFenster.getFenster(), "Einigung zwischen Client und Server hat sich nicht etabliert.");
 		}
 	}
 	
