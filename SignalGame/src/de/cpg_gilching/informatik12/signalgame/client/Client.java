@@ -32,9 +32,9 @@ public class Client extends Thread {
 			dataOut.writeInt(0);
 			dataOut.writeUTF(spielername);
 			System.out.println("Verbindung zum Server erfolgreich.");
-
+			
 			loginFenster.getFenster().dispose();
-			clientFenster = new ClientFenster();
+			clientFenster = new ClientFenster(this);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -55,6 +55,16 @@ public class Client extends Thread {
 				 */
 			}
 		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void sendeAntwort(int n) {
+		try {
+			dataOut.writeInt(1);
+			dataOut.writeInt(n);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

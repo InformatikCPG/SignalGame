@@ -15,14 +15,17 @@ import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 
 public class ClientFenster {
-
+	
 	private JFrame fenster;
 	private JPanel mainPanel;
 	private JPanel mainPanel1;
 	private JPanel mainPanel2;
 	private JPanel spielerPanel;
+	Client client;
 	
-	public ClientFenster() {
+	public ClientFenster(Client client) {
+		
+		this.client = client;
 		
 		fenster = new JFrame("Signalgame");
 		fenster.setSize(1100, 600);
@@ -38,21 +41,21 @@ public class ClientFenster {
 		mainPanel.setLayout(new BorderLayout());
 		fenster.add(mainPanel, BorderLayout.CENTER);
 		
-			mainPanel1 = new JPanel();
-			mainPanel1.setBackground(Color.darkGray);
-			mainPanel1.setBorder(BorderFactory.createLineBorder(Color.black, 2));
-			mainPanel.add(mainPanel1, BorderLayout.CENTER);
+		mainPanel1 = new JPanel();
+		mainPanel1.setBackground(Color.darkGray);
+		mainPanel1.setBorder(BorderFactory.createLineBorder(Color.black, 2));
+		mainPanel.add(mainPanel1, BorderLayout.CENTER);
 		
-			mainPanel2 = new JPanel();
-			mainPanel2.setBackground(Color.darkGray);
-			mainPanel2.setPreferredSize(new Dimension(900, 150));
-			mainPanel2.setBorder(BorderFactory.createLineBorder(Color.black, 2));
-			mainPanel2.setLayout(new BoxLayout(mainPanel2, BoxLayout.X_AXIS));
-			mainPanel.add(mainPanel2, BorderLayout.PAGE_END);
+		mainPanel2 = new JPanel();
+		mainPanel2.setBackground(Color.darkGray);
+		mainPanel2.setPreferredSize(new Dimension(900, 150));
+		mainPanel2.setBorder(BorderFactory.createLineBorder(Color.black, 2));
+		mainPanel2.setLayout(new BoxLayout(mainPanel2, BoxLayout.X_AXIS));
+		mainPanel.add(mainPanel2, BorderLayout.PAGE_END);
 		
 		spielerPanel = new JPanel();
 		spielerPanel.setBackground(Color.darkGray);
-		spielerPanel.setPreferredSize(new Dimension(250,600));
+		spielerPanel.setPreferredSize(new Dimension(250, 600));
 		spielerPanel.setBorder(BorderFactory.createLineBorder(Color.black, 2));
 		spielerPanel.setLayout(new BoxLayout(spielerPanel, BoxLayout.Y_AXIS));
 		fenster.add(spielerPanel, BorderLayout.LINE_START);
@@ -65,15 +68,15 @@ public class ClientFenster {
 	
 	public void spielerEntfernen(String spielername) {
 		for (int i = 0; i < spielerPanel.getComponentCount(); i++) {
-			if(spielerPanel.getComponent(i).getName().equals(spielername)){
+			if (spielerPanel.getComponent(i).getName().equals(spielername)) {
 				spielerPanel.remove(i);
 			}
 		}
 	}
 	
-	public void spielerElementAktualisieren(String spielername, int punktanzahlneu){
+	public void spielerElementAktualisieren(String spielername, int punktanzahlneu) {
 		for (int i = 0; i < spielerPanel.getComponentCount(); i++) {
-			if(spielerPanel.getComponent(i).getName().equals(spielername)){
+			if (spielerPanel.getComponent(i).getName().equals(spielername)) {
 				((SpielerElement) spielerPanel.getComponent(i)).punkteAktualisieren(punktanzahlneu);
 			}
 		}
@@ -81,8 +84,9 @@ public class ClientFenster {
 	
 	public void antwortenEinfuegen(Object[] antworten) {
 		mainPanel2.removeAll();
+		
 		for (int i = 0; i < antworten.length; i++) {
-			
+			final int tempI = i;
 			JPanel box = new JPanel();
 			box.setLayout(new BoxLayout(box, BoxLayout.X_AXIS));
 			
@@ -95,8 +99,7 @@ public class ClientFenster {
 				
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					// TODO Auto-generated method stub
-					
+					client.sendeAntwort(tempI);
 				}
 			});
 			
