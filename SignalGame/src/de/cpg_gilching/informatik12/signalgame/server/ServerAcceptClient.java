@@ -22,7 +22,7 @@ public class ServerAcceptClient extends Thread {
 			while (server.running) {
 				Socket socket = s.accept();
 				socket.setTcpNoDelay(true);
-				ClientAufServer csa = new ClientAufServer(socket);
+				ClientAufServer csa = new ClientAufServer(server, socket);
 				server.verbindeClient(csa);
 			}
 			s.close();

@@ -4,15 +4,21 @@ import java.util.ArrayList;
 
 public class Server {
 	
-	int port;
+	private int port;
 	public boolean running;
-	ArrayList<ClientAufServer> verbunden = new ArrayList<ClientAufServer>();
+	
+	private ArrayList<ClientAufServer> verbunden = new ArrayList<ClientAufServer>();
+	private ArrayList<ClientAufServer> neueSpieler = new ArrayList<ClientAufServer>();
+	
+	private ServerOutput ausgabe;
 	
 	public Server(int port) {
 		System.out.println("Server mit Port " + port + " gestartet.");
 		this.port = port;
 		running = true;
-		ServerAcceptClient acceptThread = new ServerAcceptClient(this, port);
+		ausgabe = new ServerOutput(verbunden);
+		
+		ServerAcceptClient acceptThread = new ServerAcceptClient(this, this.port);
 		acceptThread.start();
 	}
 	
@@ -26,12 +32,17 @@ public class Server {
 		while (running) {
 			try {
 				Thread.sleep(100);
+				
+				// temporäre Liste in die verbunden-Liste integrieren
 				synchronized (this) {
-					for (int i = 0; i < verbunden.size(); i++) {
-						int antwort = verbunden.get(i).getAntwort();
-						if (antwort != -1) {
-							// Platzhalter...
-						}
+					verbunden.addAll(neueSpieler);
+					neueSpieler.clear();
+				}
+				
+				for (int i = 0; i < verbunden.size(); i++) {
+					int antwort = verbunden.get(i).getAntwort();
+					if (antwort != -1) {
+						// Platzhalter...
 					}
 				}
 			} catch (InterruptedException e) {
@@ -42,7 +53,11 @@ public class Server {
 	
 	public synchronized void verbindeClient(ClientAufServer csa) {
 		System.out.println("Client verbunden");
-		verbunden.add(csa);
+		neueSpieler.add(csa);
 		csa.start();
+	}
+	
+	public ServerOutput getAusgabe() {
+		return ausgabe;
 	}
 }
