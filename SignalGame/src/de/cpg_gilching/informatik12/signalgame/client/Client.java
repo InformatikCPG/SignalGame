@@ -48,11 +48,17 @@ public class Client extends Thread {
 			while (true) {
 				int id = dataIn.readInt();
 				
-				/*
-				 * switch (id) { case 0: setSpielerName(dataIn.readUTF());
-				 * break; case 1: setAntwort(dataIn.readInt()); break; default:
-				 * System.out.println("Falsche ID von Client!"); }
-				 */
+				switch (id) {
+				case 1:
+					String spielername = dataIn.readUTF();
+					int startpunktanzahl = dataIn.readInt();
+					clientFenster.spielerEinfuegen(spielername, startpunktanzahl);
+					break;
+				
+				default:
+					System.out.println("Falsche ID von Server!");
+					break;
+				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

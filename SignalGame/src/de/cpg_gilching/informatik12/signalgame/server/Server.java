@@ -10,13 +10,13 @@ public class Server {
 	private ArrayList<ClientAufServer> verbunden = new ArrayList<ClientAufServer>();
 	private ArrayList<ClientAufServer> neueSpieler = new ArrayList<ClientAufServer>();
 	
-	private ServerOutput ausgabe;
+	private Punktetafel punktetafel;
 	
 	public Server(int port) {
 		System.out.println("Server mit Port " + port + " gestartet.");
 		this.port = port;
 		running = true;
-		ausgabe = new ServerOutput(verbunden);
+		punktetafel = new Punktetafel();
 		
 		ServerAcceptClient acceptThread = new ServerAcceptClient(this, this.port);
 		acceptThread.start();
@@ -34,10 +34,7 @@ public class Server {
 				Thread.sleep(100);
 				
 				// temporäre Liste in die verbunden-Liste integrieren
-				synchronized (this) {
-					verbunden.addAll(neueSpieler);
-					neueSpieler.clear();
-				}
+				neueSpielerKopieren();
 				
 				for (int i = 0; i < verbunden.size(); i++) {
 					int antwort = verbunden.get(i).getAntwort();
@@ -51,13 +48,19 @@ public class Server {
 		}
 	}
 	
+	private synchronized void neueSpielerKopieren() {
+		verbunden.addAll(neueSpieler);
+		neueSpieler.clear();
+	}
+	
 	public synchronized void verbindeClient(ClientAufServer csa) {
 		System.out.println("Client verbunden");
 		neueSpieler.add(csa);
 		csa.start();
 	}
 	
-	public ServerOutput getAusgabe() {
-		return ausgabe;
+	public Punktetafel getPunktetafel() {
+		return punktetafel;
 	}
+	
 }

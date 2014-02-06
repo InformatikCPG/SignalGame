@@ -60,7 +60,8 @@ public class ClientAufServer extends Thread {
 					setSpielerName(dataIn.readUTF());
 					System.out.println("Name wurde auf " + getSpielerName() + " gesetzt.");
 					
-					server.getAusgabe().sendeNeuenSpieler(getSpielerName(), 0);
+					server.getPunktetafel().clientHinzufügen(this);
+					//					server.getAusgabe().sendeNeuenSpieler(getSpielerName(), 0);
 					break;
 				case 1:
 					setAntwort(dataIn.readInt());
@@ -74,8 +75,15 @@ public class ClientAufServer extends Thread {
 		}
 	}
 	
-	public DataOutputStream getDataOut() {
-		return dataOut;
+	
+	public void sendeNeuenSpieler(String spielername, int punktestand) {
+		try {
+			dataOut.writeInt(1);
+			dataOut.writeUTF(spielername);
+			dataOut.writeInt(punktestand);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }
