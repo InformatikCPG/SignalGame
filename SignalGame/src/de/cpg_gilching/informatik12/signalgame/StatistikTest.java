@@ -1,11 +1,11 @@
-package de.cpg_gilching.informatik12.signalgame.test;
+package de.cpg_gilching.informatik12.signalgame;
 
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.util.HashSet;
 
-import de.cpg_gilching.informatik12.signalgame.server.level.Knoten;
-import de.cpg_gilching.informatik12.signalgame.server.level.LevelGenerator;
+import de.cpg_gilching.informatik12.signalgame.server.LevelGenerator;
+import de.cpg_gilching.informatik12.signalgame.shared.level.Knoten;
 
 public class StatistikTest {
 	

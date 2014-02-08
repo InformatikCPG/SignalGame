@@ -1,4 +1,4 @@
-package de.cpg_gilching.informatik12.signalgame;
+package de.cpg_gilching.informatik12.signalgame.shared;
 
 import java.util.List;
 import java.util.Random;

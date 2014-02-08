@@ -15,7 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import de.cpg_gilching.informatik12.signalgame.Helfer;
+import de.cpg_gilching.informatik12.signalgame.shared.Helfer;
 
 
 /**
@@ -118,5 +118,5 @@ public class LoginFenster {
 		Client client = new Client(eingabefeldIPAdresse.getText(), Integer.parseInt(eingabefeldPort.getText()), eingabefeldBenutzername.getText(), this);
 		client.start();
 	}
-
+	
 }

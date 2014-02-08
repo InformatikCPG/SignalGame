@@ -1,4 +1,4 @@
-package de.cpg_gilching.informatik12.signalgame.server.level;
+package de.cpg_gilching.informatik12.signalgame.server;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,7 +7,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
-import de.cpg_gilching.informatik12.signalgame.Helfer;
+import de.cpg_gilching.informatik12.signalgame.shared.Helfer;
+import de.cpg_gilching.informatik12.signalgame.shared.level.AntwortKnoten;
+import de.cpg_gilching.informatik12.signalgame.shared.level.Kante;
+import de.cpg_gilching.informatik12.signalgame.shared.level.Knoten;
+import de.cpg_gilching.informatik12.signalgame.shared.level.Level;
+import de.cpg_gilching.informatik12.signalgame.shared.level.Statikquelle;
 
 public class LevelGenerator {
 	

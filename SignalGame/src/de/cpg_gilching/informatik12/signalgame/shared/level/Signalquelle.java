@@ -1,4 +1,4 @@
-package de.cpg_gilching.informatik12.signalgame.server.level;
+package de.cpg_gilching.informatik12.signalgame.shared.level;
 
 import java.util.Set;
 

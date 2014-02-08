@@ -1,4 +1,4 @@
-package de.cpg_gilching.informatik12.signalgame.test;
+package de.cpg_gilching.informatik12.signalgame.client;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -18,13 +18,13 @@ import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import de.cpg_gilching.informatik12.signalgame.Helfer;
-import de.cpg_gilching.informatik12.signalgame.server.level.AntwortKnoten;
-import de.cpg_gilching.informatik12.signalgame.server.level.Kante;
-import de.cpg_gilching.informatik12.signalgame.server.level.Knoten;
-import de.cpg_gilching.informatik12.signalgame.server.level.Level;
-import de.cpg_gilching.informatik12.signalgame.server.level.LevelGenerator;
-import de.cpg_gilching.informatik12.signalgame.server.level.Signalquelle;
+import de.cpg_gilching.informatik12.signalgame.server.LevelGenerator;
+import de.cpg_gilching.informatik12.signalgame.shared.Helfer;
+import de.cpg_gilching.informatik12.signalgame.shared.level.AntwortKnoten;
+import de.cpg_gilching.informatik12.signalgame.shared.level.Kante;
+import de.cpg_gilching.informatik12.signalgame.shared.level.Knoten;
+import de.cpg_gilching.informatik12.signalgame.shared.level.Level;
+import de.cpg_gilching.informatik12.signalgame.shared.level.Signalquelle;
 
 public class LevelRenderer extends JPanel {
 	private static final long serialVersionUID = 1L;
