@@ -59,4 +59,15 @@ public class Helfer {
 		}
 	}
 	
+	public static <T> void mischeArray(T[] array) {
+		for (int i = 0, n = array.length; i < n; i++) {
+			int swap1 = rand.nextInt(n);
+			int swap2 = rand.nextInt(n);
+			
+			T temp = array[swap1];
+			array[swap1] = array[swap2];
+			array[swap2] = temp;
+		}
+	}
+	
 }

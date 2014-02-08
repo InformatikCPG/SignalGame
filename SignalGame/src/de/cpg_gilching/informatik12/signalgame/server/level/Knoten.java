@@ -10,13 +10,42 @@ public class Knoten implements Signalquelle {
 	private boolean berechnend = false;
 	private boolean output;
 	
+	private boolean erzwungen = false;
+	
 	private List<Kante> inputs = new ArrayList<>();
 	
 	public Knoten() {
 	}
 	
+	/**
+	 * Modifiziert die Input-Kanten so, dass der erwartete Wert immer dem tatsächlich vorhandenen entspricht.
+	 */
+	public void loeseInputs() {
+		for (Kante k : inputs) {
+			k.zielzustand = k.quelle.getOutput();
+		}
+		
+		berechneNeu();
+	}
+	
+	public void erzwingeOutput(boolean wert) {
+		erzwungen = true;
+		output = wert;
+	}
+	
+	public void berechneNeu() {
+		verarbeitet = false;
+		
+		for (Kante k : inputs)
+			if (k.quelle instanceof Knoten)
+				((Knoten) k.quelle).berechneNeu();
+	}
+	
 	@Override
 	public boolean getOutput() {
+		if (erzwungen)
+			return output;
+		
 		if (!verarbeitet) {
 			if (berechnend) {
 				System.err.println("circular dependency!");
@@ -39,7 +68,7 @@ public class Knoten implements Signalquelle {
 	}
 	
 	@Override
-	public int getDepth() {
+	public int getTiefe() {
 		if (berechnend) {
 			System.err.println("circular dependency (@depth)!");
 			return 0;
@@ -49,7 +78,7 @@ public class Knoten implements Signalquelle {
 		
 		int d = 0;
 		for (Kante k : inputs)
-			d = Math.max(d, k.quelle.getDepth());
+			d = Math.max(d, k.quelle.getTiefe());
 		
 		berechnend = false;
 		
@@ -57,20 +86,21 @@ public class Knoten implements Signalquelle {
 	}
 	
 	@Override
-	public int getTotalAmount(Set<Knoten> bekannt) {
+	public int getGesamtAnzahl(Set<Knoten> bekannt) {
 		bekannt.add(this);
 		
 		int a = 0;
 		
 		for (Kante k : inputs)
 			if (!bekannt.contains(k.quelle))
-				a += k.quelle.getTotalAmount(bekannt);
+				a += k.quelle.getGesamtAnzahl(bekannt);
 		
 		return a + 1;
 	}
 	
-	public void addInput(Kante input) {
+	public Knoten addInput(Kante input) {
 		inputs.add(input);
+		return this;
 	}
 	
 	public List<Kante> getInputs() {

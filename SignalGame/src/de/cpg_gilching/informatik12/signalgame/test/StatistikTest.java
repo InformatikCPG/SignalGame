@@ -20,10 +20,10 @@ public class StatistikTest {
 		System.out.println("starte simulation ...");
 		
 		for (int i = 0; i < iterations; i++) {
-			Knoten root = generator.generiere();
+			Knoten root = generator.generiereWurzel();
 			
 			bekannt.clear();
-			int anzahl = root.getTotalAmount(bekannt);
+			int anzahl = root.getGesamtAnzahl(bekannt);
 			
 			if (anzahl >= res.length)
 				System.err.println("overflow!");

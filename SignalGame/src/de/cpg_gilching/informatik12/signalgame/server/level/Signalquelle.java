@@ -6,8 +6,8 @@ public interface Signalquelle {
 	
 	public boolean getOutput();
 	
-	public int getDepth();
+	public int getTiefe();
 	
-	public int getTotalAmount(Set<Knoten> bekannt);
+	public int getGesamtAnzahl(Set<Knoten> bekannt);
 	
 }

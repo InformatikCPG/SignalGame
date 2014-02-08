@@ -3,6 +3,7 @@ package de.cpg_gilching.informatik12.signalgame.test;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -18,8 +19,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import de.cpg_gilching.informatik12.signalgame.Helfer;
+import de.cpg_gilching.informatik12.signalgame.server.level.AntwortKnoten;
 import de.cpg_gilching.informatik12.signalgame.server.level.Kante;
 import de.cpg_gilching.informatik12.signalgame.server.level.Knoten;
+import de.cpg_gilching.informatik12.signalgame.server.level.Level;
 import de.cpg_gilching.informatik12.signalgame.server.level.LevelGenerator;
 import de.cpg_gilching.informatik12.signalgame.server.level.Signalquelle;
 
@@ -42,7 +45,8 @@ public class LevelRenderer extends JPanel {
 	
 	private static final int KNOTEN_GROESSE = 25;
 	
-	private Knoten root = new LevelGenerator().generiere();
+	private LevelGenerator gen = new LevelGenerator();
+	private Level lvl = gen.generiereLevel();
 	
 	private Graphics2D g = null;
 	
@@ -54,9 +58,9 @@ public class LevelRenderer extends JPanel {
 		addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				if (e.getKeyChar() == 'r') {
-					root = new LevelGenerator().generiere();
-					System.out.println("Anzahl Knoten: " + root.getTotalAmount(new HashSet<Knoten>()));
+				if (Character.toLowerCase(e.getKeyChar()) == 'r') {
+					lvl = gen.setKnotenAnzahl(7).setMinimalTiefe(1).setMaximalTiefe(12).setWurzelInputs(3).generiereLevel();
+					System.out.println("Anzahl Knoten: " + lvl.wurzel.getGesamtAnzahl(new HashSet<Knoten>()));
 					repaint();
 				}
 			}
@@ -74,14 +78,14 @@ public class LevelRenderer extends JPanel {
 		
 		gezeichnet.clear();
 		
-		drawRecursive(root, getWidth() - 100, getHeight() / 2);
-		
+		drawRecursive(lvl.wurzel, getWidth() - 100, getHeight() / 2);
+		drawAntworten(lvl.antworten);
 	}
 	
 	private void drawRecursive(Knoten node, int sx, int sy) {
-		drawKnoten(sx, sy, node.getOutput());
+		drawKnoten(sx, sy, node.getOutput(), node == lvl.wurzel);
 		
-		int yscale = (int) (Math.pow(1.8, node.getDepth()) * 20);
+		int yscale = (int) (Math.pow(1.8, node.getTiefe()) * 20);
 		
 		List<Kante> inputs = node.getInputs();
 		
@@ -126,9 +130,14 @@ public class LevelRenderer extends JPanel {
 		}
 	}
 	
-	private void drawKnoten(int x, int y, boolean state) {
+	private void drawKnoten(int x, int y, boolean state, boolean istGesucht) {
 		g.setColor(state ? Color.green : Color.red);
 		g.fillRect(x - KNOTEN_GROESSE, y - KNOTEN_GROESSE, KNOTEN_GROESSE * 2, KNOTEN_GROESSE * 2);
+		
+		if (istGesucht) {
+			g.setColor(Color.blue);
+			g.drawOval(x - 2, y - 2, 4, 4);
+		}
 	}
 	
 	private void drawVerbindung(int vonX, int vonY, int nachX, int nachY, int seite) {
@@ -162,6 +171,21 @@ public class LevelRenderer extends JPanel {
 		
 		g.setColor(Color.black);
 		g.draw(path);
+	}
+	
+	private void drawAntworten(AntwortKnoten[] antworten) {
+		g.setColor(Color.black);
+		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 15));
+		
+		for (int i = 0; i < antworten.length; i++) {
+			AntwortKnoten a = antworten[i];
+			
+			String s = "";
+			for (boolean b : a.getInputs())
+				s += (b ? "Y" : "N");
+			
+			g.drawString(s, 20 + i * 80, getHeight() - 20);
+		}
 	}
 	
 	private static class Punkt {
