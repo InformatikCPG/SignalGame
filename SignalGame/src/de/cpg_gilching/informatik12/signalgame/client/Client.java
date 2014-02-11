@@ -55,6 +55,9 @@ public class Client extends Thread {
 					clientFenster.spielerEinfuegen(spielername, startpunktanzahl);
 					break;
 				
+				case 10:
+					//Platzhalter
+					break;
 				default:
 					System.out.println("Falsche ID von Server!");
 					break;

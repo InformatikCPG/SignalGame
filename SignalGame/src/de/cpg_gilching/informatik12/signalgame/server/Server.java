@@ -6,6 +6,7 @@ public class Server {
 	
 	private int port;
 	public boolean running;
+	private SpielVerhalten spielVerhalten;
 	
 	private ArrayList<ClientAufServer> verbunden = new ArrayList<ClientAufServer>();
 	private ArrayList<ClientAufServer> neueSpieler = new ArrayList<ClientAufServer>();
@@ -17,6 +18,7 @@ public class Server {
 		this.port = port;
 		running = true;
 		punktetafel = new Punktetafel();
+		spielVerhalten = new SpielVerhalten(this);
 		
 		ServerAcceptClient acceptThread = new ServerAcceptClient(this, this.port);
 		acceptThread.start();
@@ -35,13 +37,8 @@ public class Server {
 				
 				// temporäre Liste in die verbunden-Liste integrieren
 				neueSpielerKopieren();
+				spielVerhalten.spielTick();
 				
-				for (int i = 0; i < verbunden.size(); i++) {
-					int antwort = verbunden.get(i).getAntwort();
-					if (antwort != -1) {
-						// Platzhalter...
-					}
-				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -61,6 +58,10 @@ public class Server {
 	
 	public Punktetafel getPunktetafel() {
 		return punktetafel;
+	}
+	
+	public ArrayList<ClientAufServer> getVerbunden() {
+		return verbunden;
 	}
 	
 }

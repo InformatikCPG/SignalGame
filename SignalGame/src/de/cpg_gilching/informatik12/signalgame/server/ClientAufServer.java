@@ -7,6 +7,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
+import de.cpg_gilching.informatik12.signalgame.shared.level.Level;
+
 public class ClientAufServer extends Thread {
 	
 	private Server server;
@@ -14,6 +16,7 @@ public class ClientAufServer extends Thread {
 	private DataInputStream dataIn;
 	private DataOutputStream dataOut;
 	private int antwort;
+	private boolean bereit = false;
 	
 	private String name = "Unbekannt";
 	
@@ -49,6 +52,14 @@ public class ClientAufServer extends Thread {
 		this.antwort = antwort;
 	}
 	
+	public synchronized void setBereit(boolean bereit) {
+		this.bereit = bereit;
+	}
+	
+	public synchronized boolean istBereit() {
+		return bereit;
+	}
+	
 	@Override
 	public void run() {
 		try {
@@ -66,6 +77,9 @@ public class ClientAufServer extends Thread {
 				case 1:
 					setAntwort(dataIn.readInt());
 					break;
+				case 2:
+					setBereit(true);
+					break;
 				default:
 					System.out.println("Falsche ID von Client!");
 				}
@@ -81,6 +95,15 @@ public class ClientAufServer extends Thread {
 			dataOut.writeInt(1);
 			dataOut.writeUTF(spielername);
 			dataOut.writeInt(punktestand);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void sendeLevel(Level level) {
+		try {
+			dataOut.writeInt(10);
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
