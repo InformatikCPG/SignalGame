@@ -4,6 +4,7 @@ import java.util.Set;
 
 
 public class Statikquelle implements Signalquelle {
+	private static final long serialVersionUID = 1L;
 	
 	/**
 	 * Singleton, da diese Klasse zustandslos ist und deswegen das Objekt wiederverwendet werden kann.

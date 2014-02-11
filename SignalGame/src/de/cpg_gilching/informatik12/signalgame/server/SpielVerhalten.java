@@ -37,6 +37,7 @@ public class SpielVerhalten {
 	
 	public void spielTick() {
 		if (!gestartet && alleBereitPrüfen()) {
+			System.out.println("Spiel wird gestartet!");
 			gestartet = true;
 			neueFrage();
 		}

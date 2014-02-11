@@ -103,7 +103,7 @@ public class ClientAufServer extends Thread {
 	public void sendeLevel(Level level) {
 		try {
 			dataOut.writeInt(10);
-			
+			level.sende(dataOut);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

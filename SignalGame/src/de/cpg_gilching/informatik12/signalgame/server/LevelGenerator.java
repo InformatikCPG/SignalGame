@@ -70,19 +70,18 @@ public class LevelGenerator {
 		wurzel.loeseInputs();
 		assert wurzel.getOutput() == true;
 		
-		//		Knoten gesucht = generiereGesucht(wurzel, alleKnoten);
-		//		
-		//		if (gesucht == null) {
-		//			// Es wurde kein geeigneter Knoten gefunden, neuer Versuch
-		//			return generiereLevel();
-		//		}
-		
 		AntwortKnoten[] antworten = generiereAntworten(wurzel);
+		
+		// die richtige Antwort merken (immer die erste)
+		AntwortKnoten richtig = antworten[0];
 		Helfer.mischeArray(antworten);
+		
+		// den neuen Index der richtigen Antwort finden
+		int richtigIndex = Arrays.asList(antworten).indexOf(richtig);
 		
 		System.out.format("Level mit %d Knoten in %d Versuchen generiert.%n", anzahl, versuche);
 		
-		return new Level(wurzel, antworten);
+		return new Level(wurzel, antworten, richtigIndex);
 	}
 	
 	public Knoten generiereWurzel() {
@@ -129,35 +128,12 @@ public class LevelGenerator {
 		return neueKnoten;
 	}
 	
-	//	private Knoten generiereGesucht(Knoten wurzel, HashSet<Knoten> alleKnoten) {
-	//		// Finde einen geeigneten Knoten, nach dem man suchen muss.
-	//		// Der Knoten kann nur verwendet werden, wenn durch das Umschalten des Outputs des Knotens das Level nicht mehr gelöst wird.
-	//		ArrayList<Knoten> knotenListe = new ArrayList<>(alleKnoten);
-	//		Knoten gesucht = null;
-	//		while (gesucht == null && !knotenListe.isEmpty()) {
-	//			Knoten kandidat = Helfer.zufallsElement(knotenListe, true);
-	//			
-	//			// richtigen Outputwert auslesen
-	//			boolean kandidatOut = kandidat.getOutput();
-	//			
-	//			// Outputwert umdrehen
-	//			kandidat.erzwingeOutput(!kandidatOut);
-	//			
-	//			// Output des Levels überprüfen
-	//			wurzel.berechneNeu();
-	//			if (wurzel.getOutput() == false) {
-	//				// Knoten ist geeignet!
-	//				gesucht = kandidat;
-	//			}
-	//			
-	//			// Knoten wieder auf Normalzustand setzen
-	//			kandidat.erzwingeOutput(kandidatOut);
-	//			wurzel.berechneNeu();
-	//		}
-	//		
-	//		return gesucht;
-	//	}
 	
+	/**
+	 * Generiert ein array mit {@link AntwortKnoten}, die die Antworten zur Frage darstellen. Der Knoten an erster Stelle ist dabei die richtige Antwort.
+	 * 
+	 * @param richtig der gesuchte Knoten, dessen Inputs als Grundlage für die Antwort verwendet werden
+	 */
 	private AntwortKnoten[] generiereAntworten(Knoten richtig) {
 		// Antwortmöglichkeiten generieren
 		AntwortKnoten[] antworten = new AntwortKnoten[4];

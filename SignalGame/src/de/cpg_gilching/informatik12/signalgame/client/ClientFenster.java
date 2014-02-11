@@ -9,10 +9,14 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
+
+import de.cpg_gilching.informatik12.signalgame.client.level.AntwortRenderer;
+import de.cpg_gilching.informatik12.signalgame.shared.level.AntwortKnoten;
 
 public class ClientFenster {
 	
@@ -82,7 +86,7 @@ public class ClientFenster {
 		}
 	}
 	
-	public void antwortenEinfuegen(Object[] antworten) {
+	public void antwortenEinfuegen(AntwortKnoten[] antworten) {
 		mainPanel2.removeAll();
 		
 		for (int i = 0; i < antworten.length; i++) {
@@ -90,8 +94,7 @@ public class ClientFenster {
 			JPanel box = new JPanel();
 			box.setLayout(new BoxLayout(box, BoxLayout.X_AXIS));
 			
-			JButton button = new JButton("test");
-			//noch anpassen mit Object[i] --^
+			JButton button = new JButton(new ImageIcon(new AntwortRenderer(antworten[i]).renderBild()));
 			button.setBackground(Color.red);
 			button.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED, Color.gray, Color.black));
 			
@@ -110,6 +113,8 @@ public class ClientFenster {
 			
 			mainPanel2.add(box);
 		}
+		
+		mainPanel2.revalidate();
 	}
 	
 	public void antwortenEntfernen() {

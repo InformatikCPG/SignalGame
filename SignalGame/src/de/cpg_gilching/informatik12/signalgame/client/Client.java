@@ -9,6 +9,8 @@ import java.net.Socket;
 
 import javax.swing.JOptionPane;
 
+import de.cpg_gilching.informatik12.signalgame.shared.level.Level;
+
 public class Client extends Thread {
 	
 	private Socket socket;
@@ -56,7 +58,8 @@ public class Client extends Thread {
 					break;
 				
 				case 10:
-					//Platzhalter
+					Level level = Level.empfange(dataIn);
+					clientFenster.antwortenEinfuegen(level.antworten);
 					break;
 				default:
 					System.out.println("Falsche ID von Server!");

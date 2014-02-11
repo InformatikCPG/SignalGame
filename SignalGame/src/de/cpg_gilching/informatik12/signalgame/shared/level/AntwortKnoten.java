@@ -1,6 +1,9 @@
 package de.cpg_gilching.informatik12.signalgame.shared.level;
 
-public class AntwortKnoten {
+import java.io.Serializable;
+
+public class AntwortKnoten implements Serializable {
+	private static final long serialVersionUID = 1L;
 	
 	private transient int addIndex = 0;
 	

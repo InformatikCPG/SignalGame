@@ -1,4 +1,4 @@
-package de.cpg_gilching.informatik12.signalgame.client;
+package de.cpg_gilching.informatik12.signalgame;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -26,11 +26,11 @@ import de.cpg_gilching.informatik12.signalgame.shared.level.Knoten;
 import de.cpg_gilching.informatik12.signalgame.shared.level.Level;
 import de.cpg_gilching.informatik12.signalgame.shared.level.Signalquelle;
 
-public class LevelRenderer extends JPanel {
+public class LevelTestRenderer extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	public static void main(String[] args) {
-		LevelRenderer r = new LevelRenderer();
+		LevelTestRenderer r = new LevelTestRenderer();
 		
 		JFrame f = new JFrame("SignalGame test");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -52,7 +52,7 @@ public class LevelRenderer extends JPanel {
 	
 	private Map<Signalquelle, Punkt> gezeichnet = new HashMap<>();
 	
-	public LevelRenderer() {
+	public LevelTestRenderer() {
 		setPreferredSize(new Dimension(800, 600));
 		
 		addKeyListener(new KeyAdapter() {

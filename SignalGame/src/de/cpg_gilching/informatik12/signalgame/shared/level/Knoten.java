@@ -1,16 +1,18 @@
 package de.cpg_gilching.informatik12.signalgame.shared.level;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 public class Knoten implements Signalquelle {
+	private static final long serialVersionUID = 1L;
 	
-	private boolean verarbeitet = false;
-	private boolean berechnend = false;
-	private boolean output;
+	private transient boolean verarbeitet = false;
+	private transient boolean berechnend = false;
+	private transient boolean output;
 	
-	private boolean erzwungen = false;
+	private transient boolean erzwungen = false;
 	
 	private List<Kante> inputs = new ArrayList<>();
 	
