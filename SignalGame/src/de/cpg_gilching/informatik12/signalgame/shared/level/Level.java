@@ -44,4 +44,8 @@ public class Level implements Serializable {
 		}
 	}
 	
+	public int getRichtigeAntwort() {
+		return richtigeAntwort;
+	}
+	
 }

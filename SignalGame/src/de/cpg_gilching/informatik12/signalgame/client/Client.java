@@ -56,10 +56,16 @@ public class Client extends Thread {
 					int startpunktanzahl = dataIn.readInt();
 					clientFenster.spielerEinfuegen(spielername, startpunktanzahl);
 					break;
-				
 				case 10:
 					Level level = Level.empfange(dataIn);
+					clientFenster.frageAnzeigen(level);
 					clientFenster.antwortenEinfuegen(level.antworten);
+					break;
+				case 11:
+					boolean ergebnis = dataIn.readBoolean();
+					break;
+				case 12:
+					int richtigeAntwort = dataIn.readInt();
 					break;
 				default:
 					System.out.println("Falsche ID von Server!");
@@ -75,6 +81,15 @@ public class Client extends Thread {
 		try {
 			dataOut.writeInt(1);
 			dataOut.writeInt(n);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void sendeBereit() {
+		try {
+			dataOut.writeInt(2);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

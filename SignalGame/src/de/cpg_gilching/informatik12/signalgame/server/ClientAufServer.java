@@ -22,6 +22,7 @@ public class ClientAufServer extends Thread {
 	
 	ClientAufServer(Server server, Socket socket) {
 		this.server = server;
+		antwort = -1;
 		try {
 			this.socket = socket;
 			InputStream is = socket.getInputStream();
@@ -104,6 +105,24 @@ public class ClientAufServer extends Thread {
 		try {
 			dataOut.writeInt(10);
 			level.sende(dataOut);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void sendeErgebnis(boolean ergebnis) {
+		try {
+			dataOut.writeInt(11);
+			dataOut.writeBoolean(ergebnis);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void sendeRichtigeAntwort(int rA) {
+		try {
+			dataOut.writeInt(12);
+			dataOut.writeInt(rA);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

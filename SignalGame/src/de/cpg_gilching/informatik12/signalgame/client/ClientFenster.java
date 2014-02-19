@@ -12,11 +12,14 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 
 import de.cpg_gilching.informatik12.signalgame.client.level.AntwortRenderer;
+import de.cpg_gilching.informatik12.signalgame.client.level.LevelRenderer;
 import de.cpg_gilching.informatik12.signalgame.shared.level.AntwortKnoten;
+import de.cpg_gilching.informatik12.signalgame.shared.level.Level;
 
 public class ClientFenster {
 	
@@ -63,6 +66,17 @@ public class ClientFenster {
 		spielerPanel.setBorder(BorderFactory.createLineBorder(Color.black, 2));
 		spielerPanel.setLayout(new BoxLayout(spielerPanel, BoxLayout.Y_AXIS));
 		fenster.add(spielerPanel, BorderLayout.LINE_START);
+		
+		
+		
+		JButton bereitBtn = new JButton("Bereit");
+		bereitBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ClientFenster.this.client.sendeBereit();
+			}
+		});
+		mainPanel1.add(bereitBtn);
 		
 	}
 	
@@ -119,6 +133,11 @@ public class ClientFenster {
 	
 	public void antwortenEntfernen() {
 		mainPanel2.removeAll();
+	}
+	
+	public void frageAnzeigen(Level level) {
+		mainPanel1.removeAll();
+		mainPanel1.add(new JLabel(new ImageIcon(new LevelRenderer(level, mainPanel1.getWidth(), mainPanel1.getHeight()).renderBild())));
 	}
 	
 }
