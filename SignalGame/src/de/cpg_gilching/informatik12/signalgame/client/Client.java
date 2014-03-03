@@ -63,6 +63,7 @@ public class Client extends Thread {
 					break;
 				case 11:
 					boolean ergebnis = dataIn.readBoolean();
+					clientFenster.antwortMarkieren(0);
 					break;
 				case 12:
 					int richtigeAntwort = dataIn.readInt();
