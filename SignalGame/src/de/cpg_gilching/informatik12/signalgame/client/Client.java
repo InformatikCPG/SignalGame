@@ -56,6 +56,11 @@ public class Client extends Thread {
 					int startpunktanzahl = dataIn.readInt();
 					clientFenster.spielerEinfuegen(spielername, startpunktanzahl);
 					break;
+				case 2:
+					String spielername2 = dataIn.readUTF();
+					int neuePunkte = dataIn.readInt();
+					clientFenster.spielerElementAktualisieren(spielername2, neuePunkte);
+					break;
 				case 10:
 					Level level = Level.empfange(dataIn);
 					clientFenster.frageAnzeigen(level);

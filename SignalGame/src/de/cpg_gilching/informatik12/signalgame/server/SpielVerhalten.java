@@ -12,6 +12,7 @@ public class SpielVerhalten {
 	private boolean gestartet;
 	private ArrayList<ClientAufServer> geblockt;
 	private ArrayList<ClientAufServer> verbunden;
+	private ArrayList<ClientAufServer> richtigBeantwortet;
 	private int timer;
 	
 	public SpielVerhalten(Server server) {
@@ -20,6 +21,7 @@ public class SpielVerhalten {
 		gestartet = false;
 		geblockt = new ArrayList<ClientAufServer>();
 		verbunden = server.getVerbunden();
+		richtigBeantwortet = new ArrayList<ClientAufServer>();
 	}
 	
 	public boolean alleBereitPrüfen() {
@@ -43,6 +45,7 @@ public class SpielVerhalten {
 			verbunden.get(i).sendeLevel(aktLevel);
 		}
 		geblockt.clear();
+		richtigBeantwortet.clear();
 	}
 	
 	public void checkAntwort(int antwort, ClientAufServer spieler) {
@@ -50,6 +53,10 @@ public class SpielVerhalten {
 		if (!geblockt.contains(spieler)) {
 			spieler.sendeErgebnis(checkAntwort);
 			geblockt.add(spieler);
+			
+			if (checkAntwort) {
+				richtigBeantwortet.add(spieler);
+			}
 		}
 	}
 	
@@ -76,12 +83,16 @@ public class SpielVerhalten {
 					}
 					verbunden.get(i).sendeRichtigeAntwort(aktLevel.getRichtigeAntwort());
 				}
+				
+				for (int i = 0; i < richtigBeantwortet.size(); i++) {
+					server.getPunktetafel().punkteGeben(richtigBeantwortet.get(i), verbunden.size() - 1 - i);
+				}
 			}
 			
 			if (geblockt.size() == verbunden.size()) {
 				timer++;
 				
-				if (timer > 50) {
+				if (timer > 30) {
 					neueFrage();
 					timer = 0;
 				}

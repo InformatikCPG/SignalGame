@@ -5,23 +5,32 @@ import java.util.Map;
 
 public class Punktetafel {
 	
-	private Map<ClientAufServer, Integer> punkte = new HashMap<>();
+	private Map<ClientAufServer, Integer> allePunkte = new HashMap<>();
 	
 	public void clientHinzufügen(ClientAufServer csa) {
 		// nicht doppelt einfügen
-		if (punkte.containsKey(csa)) {
+		if (allePunkte.containsKey(csa)) {
 			return;
 		}
 		
-		punkte.put(csa, 0);
+		allePunkte.put(csa, 0);
 		
-		for (ClientAufServer anderer : punkte.keySet()) {
+		for (ClientAufServer anderer : allePunkte.keySet()) {
 			// den neuen Spieler über die bisherigen Spieler informieren
-			csa.sendeNeuenSpieler(anderer.getSpielerName(), punkte.get(anderer));
+			csa.sendeNeuenSpieler(anderer.getSpielerName(), allePunkte.get(anderer));
 			
 			// alle anderen Spieler über den neuen Spieler informieren
 			if (anderer != csa)
 				anderer.sendeNeuenSpieler(csa.getSpielerName(), 0);
+		}
+	}
+	
+	public void punkteGeben(ClientAufServer csa, int punkte) {
+		int neuePunkte = allePunkte.get(csa) + punkte;
+		allePunkte.put(csa, neuePunkte);
+		
+		for (ClientAufServer anderer : allePunkte.keySet()) {
+			anderer.sendePunktestand(csa.getSpielerName(), neuePunkte);
 		}
 	}
 	

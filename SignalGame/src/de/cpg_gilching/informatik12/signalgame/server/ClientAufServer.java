@@ -101,6 +101,16 @@ public class ClientAufServer extends Thread {
 		}
 	}
 	
+	public void sendePunktestand(String spielername, int neuerPunktestand) {
+		try {
+			dataOut.writeInt(2);
+			dataOut.writeUTF(spielername);
+			dataOut.writeInt(neuerPunktestand);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void sendeLevel(Level level) {
 		try {
 			dataOut.writeInt(10);
