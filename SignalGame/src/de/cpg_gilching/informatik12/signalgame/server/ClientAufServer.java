@@ -80,6 +80,7 @@ public class ClientAufServer extends Thread {
 					break;
 				case 2:
 					setBereit(true);
+					System.out.println(getSpielerName() + " ist bereit.");
 					break;
 				default:
 					System.out.println("Falsche ID von Client!");
@@ -120,10 +121,10 @@ public class ClientAufServer extends Thread {
 		}
 	}
 	
-	public void sendeErgebnis(boolean ergebnis) {
+	public void sendeMarkierung(int antwort) {
 		try {
 			dataOut.writeInt(11);
-			dataOut.writeBoolean(ergebnis);
+			dataOut.writeInt(antwort);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

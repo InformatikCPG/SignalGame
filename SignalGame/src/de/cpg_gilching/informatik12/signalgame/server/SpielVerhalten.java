@@ -51,7 +51,7 @@ public class SpielVerhalten {
 	public void checkAntwort(int antwort, ClientAufServer spieler) {
 		boolean checkAntwort = aktLevel.istRichtig(antwort);
 		if (!geblockt.contains(spieler)) {
-			spieler.sendeErgebnis(checkAntwort);
+			spieler.sendeMarkierung(antwort);
 			geblockt.add(spieler);
 			
 			if (checkAntwort) {

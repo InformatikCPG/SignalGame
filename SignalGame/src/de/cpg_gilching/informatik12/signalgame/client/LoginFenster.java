@@ -46,6 +46,7 @@ public class LoginFenster {
 		fenster.setLayout(new BorderLayout());
 		fenster.add(hauptPanel, BorderLayout.NORTH);
 		fenster.pack();
+		fenster.setMinimumSize(fenster.getSize());
 		fenster.setLocationRelativeTo(null);
 		fenster.setVisible(true);
 		

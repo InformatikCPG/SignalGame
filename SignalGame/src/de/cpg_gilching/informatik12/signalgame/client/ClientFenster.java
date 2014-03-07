@@ -15,7 +15,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.BevelBorder;
 
 import de.cpg_gilching.informatik12.signalgame.client.level.AntwortRenderer;
 import de.cpg_gilching.informatik12.signalgame.client.level.LevelRenderer;
@@ -72,13 +71,14 @@ public class ClientFenster {
 		fenster.add(spielerPanel, BorderLayout.LINE_START);
 		
 		
-		JButton bereitBtn = new JButton("Bereit?");
+		final JButton bereitBtn = new JButton("Bereit?");
 		bereitBtn.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));
-		bereitBtn.setPreferredSize(new Dimension(100,50));
+		bereitBtn.setPreferredSize(new Dimension(100, 50));
 		bereitBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				ClientFenster.this.client.sendeBereit();
+				bereitBtn.setBackground(Color.green);
 			}
 		});
 		mainPanel1.add(bereitBtn, BorderLayout.PAGE_END);
@@ -146,16 +146,17 @@ public class ClientFenster {
 	}
 	
 	public void antwortMarkieren(int antwort) {
-		((JButton)((JPanel) mainPanel2.getComponent(antwort)).getComponent(1)).setBorder(BorderFactory.createLineBorder(Color.blue, 5));
-		}
+		((JButton) ((JPanel) mainPanel2.getComponent(antwort)).getComponent(1)).setBorder(BorderFactory.createLineBorder(Color.blue, 5));
+	}
 	
 	public void korrigieren(int antwort, int korrekt) {
-		if(antwort==korrekt) {
-			((JButton)((JPanel) mainPanel2.getComponent(antwort)).getComponent(1)).setBorder(BorderFactory.createLineBorder(Color.green, 5));
+		if (antwort == korrekt) {
+			((JButton) ((JPanel) mainPanel2.getComponent(antwort)).getComponent(1)).setBorder(BorderFactory.createLineBorder(Color.green, 5));
 		}
-		else {
-			((JButton)((JPanel) mainPanel2.getComponent(antwort)).getComponent(1)).setBorder(BorderFactory.createLineBorder(Color.red, 5));
-			((JButton)((JPanel) mainPanel2.getComponent(korrekt)).getComponent(1)).setBorder(BorderFactory.createLineBorder(Color.green, 5));
+		else if (antwort > -1) {
+			((JButton) ((JPanel) mainPanel2.getComponent(antwort)).getComponent(1)).setBorder(BorderFactory.createLineBorder(Color.red, 5));
 		}
+		
+		((JButton) ((JPanel) mainPanel2.getComponent(korrekt)).getComponent(1)).setBorder(BorderFactory.createLineBorder(Color.green, 5));
 	}
 }
