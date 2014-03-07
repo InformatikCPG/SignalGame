@@ -1,5 +1,6 @@
 package de.cpg_gilching.informatik12.signalgame.client.level;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -19,7 +20,12 @@ import de.cpg_gilching.informatik12.signalgame.shared.level.Signalquelle;
 
 public class LevelRenderer {
 	
-	private static final int KNOTEN_GROESSE = 25;
+	public static final int KNOTEN_GROESSE = 32;
+	
+	public static BufferedImage bildGate = Helfer.bildLaden("gate.png");
+	public static BufferedImage bildTrue = Helfer.bildLaden("true.png");
+	public static BufferedImage bildFalse = Helfer.bildLaden("false.png");
+	public static BufferedImage bildGesucht = Helfer.bildLaden("gesucht.png");
 	
 	private Level level;
 	
@@ -37,6 +43,7 @@ public class LevelRenderer {
 	
 	public Image renderBild() {
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g.setStroke(new BasicStroke(2.0f));
 		
 		g.setColor(Color.white);
 		g.fillRect(0, 0, bild.getWidth(), bild.getHeight());
@@ -52,11 +59,12 @@ public class LevelRenderer {
 	}
 	
 	private void drawRecursive(Knoten node, int sx, int sy) {
-		drawKnoten(sx, sy, node.getOutput(), node == level.wurzel);
-		
-		int yscale = (int) (Math.pow(1.8, node.getTiefe()) * 20);
-		
 		List<Kante> inputs = node.getInputs();
+		
+		drawKnoten(sx, sy, inputs, node == level.wurzel);
+		
+		int yscale = (int) (Math.pow(1.8, node.getTiefe()) * 32);
+		
 		
 		//		int verzweigungen = 0;
 		//		for (Kante k : inputs)
@@ -104,41 +112,33 @@ public class LevelRenderer {
 		}
 	}
 	
-	private void drawKnoten(int x, int y, boolean state, boolean istGesucht) {
-		g.setColor(state ? Color.green : Color.red);
-		g.fillRect(x - KNOTEN_GROESSE, y - KNOTEN_GROESSE, KNOTEN_GROESSE * 2, KNOTEN_GROESSE * 2);
-		
+	private void drawKnoten(int x, int y, List<Kante> inputs, boolean istGesucht) {
 		if (istGesucht) {
-			g.setColor(Color.blue);
-			g.drawOval(x - 2, y - 2, 4, 4);
+			g.drawImage(bildGesucht, x - KNOTEN_GROESSE, y - KNOTEN_GROESSE, null);
+		}
+		else {
+			g.drawImage(bildGate, x - KNOTEN_GROESSE, y - KNOTEN_GROESSE, null);
+			
+			for (int i = 0; i < inputs.size(); i++) {
+				Kante k = inputs.get(i);
+				int seite = getSeiteFromIndex(i, inputs.size());
+				
+				Punkt pkt = getOffsetUnit(seite).mul(KNOTEN_GROESSE - 13).add(new Punkt(x, y));
+				
+				BufferedImage img = (k.zielzustand ? bildTrue : bildFalse);
+				g.drawImage(img, pkt.x - img.getWidth() / 2, pkt.y - img.getHeight() / 2, null);
+			}
 		}
 	}
 	
 	private void drawVerbindung(int vonX, int vonY, int nachX, int nachY, int seite) {
-		final int dknoten = KNOTEN_GROESSE * 3 / 2;
-		
-		Punkt nachKante, nachAbstand;
-		switch (seite) {
-		case 0:
-			nachKante = new Punkt(nachX, nachY - KNOTEN_GROESSE);
-			nachAbstand = new Punkt(nachX, nachY - dknoten);
-			break;
-		case 1:
-			nachKante = new Punkt(nachX - KNOTEN_GROESSE, nachY);
-			nachAbstand = new Punkt(nachX - dknoten, nachY);
-			break;
-		case 2:
-			nachKante = new Punkt(nachX, nachY + KNOTEN_GROESSE);
-			nachAbstand = new Punkt(nachX, nachY + dknoten);
-			break;
-		default:
-			throw new IllegalArgumentException("ungültige seite");
-		}
+		Punkt nachKante = new Punkt(nachX, nachY).add(getOffsetKante(seite));
+		Punkt nachAbstand = new Punkt(nachX, nachY).add(getOffsetAbstand(seite));
 		
 		Path2D.Float path = new Path2D.Float();
 		path.moveTo(vonX + KNOTEN_GROESSE, vonY);
-		path.lineTo(vonX + dknoten, vonY);
-		//		path.lineTo(vonX + dknoten, nachAbstand.y);
+		path.lineTo(vonX + KNOTEN_GROESSE * 3 / 2, vonY);
+		//		path.lineTo(vonX + KNOTEN_GROESSE * 3 / 2, nachAbstand.y);
 		path.lineTo(nachAbstand.x, nachAbstand.y);
 		path.lineTo(nachKante.x, nachKante.y);
 		
@@ -182,44 +182,42 @@ public class LevelRenderer {
 		g.drawLine(0, (minY + maxY) / 2, minX, (minY + maxY) / 2);
 	}
 	
-	private Punkt getOffsetKante(int seite) {
-		
+	public static Punkt getOffsetKante(int seite) {
+		return getOffsetUnit(seite).mul(KNOTEN_GROESSE);
+	}
+	
+	public static Punkt getOffsetAbstand(int seite) {
+		return getOffsetUnit(seite).mul(KNOTEN_GROESSE * 3 / 2);
+	}
+	
+	public static Punkt getOffsetUnit(int seite) {
 		switch (seite) {
 		case 0:
-			return new Punkt(0, -KNOTEN_GROESSE);
+			return new Punkt(0, -1);
 		case 1:
-			return new Punkt(-KNOTEN_GROESSE, 0);
+			return new Punkt(-1, 0);
 		case 2:
-			return new Punkt(0, KNOTEN_GROESSE);
+			return new Punkt(0, 1);
 		default:
 			throw new IllegalArgumentException("ungültige seite");
 		}
 	}
 	
-	private Punkt getOffsetAbstand(int seite) {
-		final int dknoten = KNOTEN_GROESSE * 3 / 2;
-		
-		switch (seite) {
-		case 0:
-			return new Punkt(0, -dknoten);
+	public static int getSeiteFromIndex(int i, int gesamt) {
+		int seite;
+		switch (gesamt) {
 		case 1:
-			return new Punkt(-dknoten, 0);
+			seite = 1;
+			break;
 		case 2:
-			return new Punkt(0, dknoten);
+			seite = (i == 0 ? 0 : 2);
+			break;
 		default:
-			throw new IllegalArgumentException("ungültige seite");
+			seite = i;
+			break;
 		}
-	}
-	
-	
-	private static class Punkt {
-		int x;
-		int y;
 		
-		public Punkt(int x, int y) {
-			this.x = x;
-			this.y = y;
-		}
+		return seite;
 	}
 	
 }

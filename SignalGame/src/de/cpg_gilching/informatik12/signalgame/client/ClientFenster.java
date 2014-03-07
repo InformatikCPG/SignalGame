@@ -113,9 +113,10 @@ public class ClientFenster {
 			JPanel box = new JPanel();
 			box.setLayout(new BoxLayout(box, BoxLayout.X_AXIS));
 			
-			JButton button = new JButton(new ImageIcon(new AntwortRenderer(antworten[i]).renderBild()));
-			button.setBackground(Color.red);
-			button.setBorder(BorderFactory.createLineBorder(Color.black, 5));
+			JButton button = new JButton();
+			button.setIcon(new ImageIcon(new AntwortRenderer(antworten[i], false).renderBild()));
+			button.setRolloverIcon(new ImageIcon(new AntwortRenderer(antworten[i], true).renderBild()));
+			button.setBorder(BorderFactory.createLineBorder(Color.darkGray, 5));
 			
 			button.addActionListener(new ActionListener() {
 				
