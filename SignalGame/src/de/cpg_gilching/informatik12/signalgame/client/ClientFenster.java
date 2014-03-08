@@ -13,11 +13,10 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import de.cpg_gilching.informatik12.signalgame.client.level.AntwortRenderer;
-import de.cpg_gilching.informatik12.signalgame.client.level.LevelRenderer;
+import de.cpg_gilching.informatik12.signalgame.client.level.LevelPanel;
 import de.cpg_gilching.informatik12.signalgame.shared.level.AntwortKnoten;
 import de.cpg_gilching.informatik12.signalgame.shared.level.Level;
 
@@ -151,7 +150,7 @@ public class ClientFenster {
 	
 	public void frageAnzeigen(Level level) {
 		mainPanel1.removeAll();
-		mainPanel1.add(new JLabel(new ImageIcon(new LevelRenderer(level, mainPanel1.getWidth(), mainPanel1.getHeight()).renderBild())));
+		mainPanel1.add(new LevelPanel(level));
 		for (int i = 0; i < spielerPanel.getComponentCount(); i++) {
 			((SpielerElement) spielerPanel.getComponent(i)).markiereBeantwortet(false);
 		}
