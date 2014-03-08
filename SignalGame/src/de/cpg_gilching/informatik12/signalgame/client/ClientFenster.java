@@ -177,11 +177,16 @@ public class ClientFenster {
 		((JButton) ((JPanel) mainPanel2.getComponent(korrekt)).getComponent(1)).setBorder(BorderFactory.createLineBorder(Color.green, 5));
 	}
 	
-	public void antwortAnzeigen(String spielername, int antwort) {
+	public void antwortAnzeigen(String spielername, int antwort, int richtigeAntwort) {
 		AntwortKnoten knoten = antworten[antwort];
 		for (int i = 0; i < spielerPanel.getComponentCount(); i++) {
 			if (spielerPanel.getComponent(i).getName().equals(spielername)) {
-				((SpielerElement) spielerPanel.getComponent(i)).antwortAnzeigen(knoten);
+				if(antwort == richtigeAntwort) {
+					((SpielerElement) spielerPanel.getComponent(i)).antwortAnzeigen(knoten, true);
+				}
+				else {
+					((SpielerElement) spielerPanel.getComponent(i)).antwortAnzeigen(knoten, false);
+				}
 			}
 		}
 	}

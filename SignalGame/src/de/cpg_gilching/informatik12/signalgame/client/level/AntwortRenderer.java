@@ -43,7 +43,7 @@ public class AntwortRenderer {
 		
 		if (rahmen != null) {
 			g.setStroke(new BasicStroke(5.0f));
-			g.setColor(new Color(0x990000FF, true));
+			g.setColor(rahmen);
 			g.drawRect(2, 2, bild.getWidth() - 5, bild.getHeight() - 5);
 		}
 		

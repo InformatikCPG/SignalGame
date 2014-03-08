@@ -57,8 +57,12 @@ public class SpielerElement extends JPanel {
 		tippAnzeige.setVisible(t);
 	}
 	
-	public void antwortAnzeigen(AntwortKnoten antwort) {
-		tippAnzeige.setIcon(new ImageIcon(new AntwortRenderer(antwort, null).renderBild()));
+	public void antwortAnzeigen(AntwortKnoten knoten, boolean t) {
+		if(t){
+			tippAnzeige.setIcon(new ImageIcon(new AntwortRenderer(knoten, Color.green).renderBild()));
+		}
+		else{
+			tippAnzeige.setIcon(new ImageIcon(new AntwortRenderer(knoten, Color.red).renderBild()));
+		}
 	}
-	
 }

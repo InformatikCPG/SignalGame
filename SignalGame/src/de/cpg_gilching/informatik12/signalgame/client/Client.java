@@ -18,8 +18,10 @@ public class Client extends Thread {
 	private DataOutputStream dataOut;
 	private String spielername;
 	private ClientFenster clientFenster;
+
 	
 	private int markierteAntwort = -1;
+	private int richtigeAntwort = -1;
 	
 	public Client(String IP, int port, String spielername, LoginFenster loginFenster) {
 		try {
@@ -73,7 +75,7 @@ public class Client extends Thread {
 				case 4:
 					int rA = dataIn.readInt();
 					String spielername4 = dataIn.readUTF();
-					clientFenster.antwortAnzeigen(spielername4, rA);
+					clientFenster.antwortAnzeigen(spielername4, rA, richtigeAntwort);
 					break;
 				
 				case 10:
@@ -82,6 +84,7 @@ public class Client extends Thread {
 					clientFenster.antwortenEinfuegen(level.antworten);
 					
 					markierteAntwort = -1;
+					richtigeAntwort = -1;
 					break;
 				
 				case 11:
@@ -90,7 +93,7 @@ public class Client extends Thread {
 					break;
 				
 				case 12:
-					int richtigeAntwort = dataIn.readInt();
+					richtigeAntwort = dataIn.readInt();
 					clientFenster.korrigieren(markierteAntwort, richtigeAntwort);
 					break;
 				
