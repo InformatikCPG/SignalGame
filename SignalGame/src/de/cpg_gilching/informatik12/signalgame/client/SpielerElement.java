@@ -35,8 +35,6 @@ public class SpielerElement extends JPanel {
 		add(Box.createHorizontalGlue());
 		tippAnzeige = new JLabel();
 		tippAnzeige.setVisible(false);
-		//tippAnzeige.setText("test");
-		tippAnzeige.setIcon(new ImageIcon(Helfer.bildLaden("gesucht.png")));
 		add(tippAnzeige);
 		add(punktanzahl);
 		
@@ -54,8 +52,9 @@ public class SpielerElement extends JPanel {
 		punktanzahl.setText("" + punktanzahlneu);
 	}
 	
-	public void markiereBeantwortet(boolean beantwortet) {
-		tippAnzeige.setVisible(beantwortet);
+	public void tippAnzeigen(boolean t) {
+		tippAnzeige.setIcon(new ImageIcon(Helfer.bildLaden("gesucht.png")));
+		tippAnzeige.setVisible(t);
 	}
 	
 	public void antwortAnzeigen(AntwortKnoten antwort) {

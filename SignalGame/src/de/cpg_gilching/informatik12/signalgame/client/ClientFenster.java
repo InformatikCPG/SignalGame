@@ -108,7 +108,7 @@ public class ClientFenster {
 	public void spielerHatBeantwortet(String spielername) {
 		for (int i = 0; i < spielerPanel.getComponentCount(); i++) {
 			if (spielerPanel.getComponent(i).getName().equals(spielername)) {
-				((SpielerElement) spielerPanel.getComponent(i)).markiereBeantwortet(true);
+				((SpielerElement) spielerPanel.getComponent(i)).tippAnzeigen(true);
 			}
 		}
 	}
@@ -154,7 +154,7 @@ public class ClientFenster {
 		mainPanel1.removeAll();
 		mainPanel1.add(new LevelPanel(level));
 		for (int i = 0; i < spielerPanel.getComponentCount(); i++) {
-			((SpielerElement) spielerPanel.getComponent(i)).markiereBeantwortet(false);
+			((SpielerElement) spielerPanel.getComponent(i)).tippAnzeigen(false);
 		}
 	}
 	
