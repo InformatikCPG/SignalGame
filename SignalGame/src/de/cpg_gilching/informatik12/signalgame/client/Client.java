@@ -65,6 +65,11 @@ public class Client extends Thread {
 					clientFenster.spielerElementAktualisieren(spielername2, neuePunkte);
 					break;
 				
+				case 3:
+					String spielername3 = dataIn.readUTF();
+					clientFenster.spielerHatBeantwortet(spielername3);
+					break;
+				
 				case 10:
 					Level level = Level.empfange(dataIn);
 					clientFenster.frageAnzeigen(level);
