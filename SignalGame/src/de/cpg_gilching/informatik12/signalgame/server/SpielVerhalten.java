@@ -91,7 +91,7 @@ public class SpielVerhalten {
 			}
 			
 			for (int i = 0; i < verbunden.size(); i++) {
-				verbunden.get(i).sendeHatBeantwortet(verbunden.get(i).getName());
+				verbunden.get(i).sendeHatBeantwortet(spieler.getSpielerName());
 			}
 		}
 	}

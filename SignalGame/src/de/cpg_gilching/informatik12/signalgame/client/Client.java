@@ -73,7 +73,7 @@ public class Client extends Thread {
 				case 4:
 					int rA = dataIn.readInt();
 					String spielername4 = dataIn.readUTF();
-					// TO DO: Geantwortete Antwort anzeigen
+					clientFenster.antwortAnzeigen(spielername4, rA);
 					break;
 				
 				case 10:

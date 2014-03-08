@@ -27,6 +27,7 @@ public class ClientFenster {
 	private JPanel mainPanel1;
 	private JPanel mainPanel2;
 	private JPanel spielerPanel;
+	private AntwortKnoten antworten[];
 	Client client;
 	
 	public ClientFenster(Client client) {
@@ -114,6 +115,7 @@ public class ClientFenster {
 	
 	public void antwortenEinfuegen(AntwortKnoten[] antworten) {
 		mainPanel2.removeAll();
+		this.antworten= antworten;
 		
 		for (int i = 0; i < antworten.length; i++) {
 			final int tempI = i;
@@ -173,5 +175,14 @@ public class ClientFenster {
 		}
 		
 		((JButton) ((JPanel) mainPanel2.getComponent(korrekt)).getComponent(1)).setBorder(BorderFactory.createLineBorder(Color.green, 5));
+	}
+	
+	public void antwortAnzeigen(String spielername, int antwort) {
+		AntwortKnoten knoten = antworten[antwort];
+		for (int i = 0; i < spielerPanel.getComponentCount(); i++) {
+			if (spielerPanel.getComponent(i).getName().equals(spielername)) {
+				((SpielerElement) spielerPanel.getComponent(i)).antwortAnzeigen(knoten);
+			}
+		}
 	}
 }

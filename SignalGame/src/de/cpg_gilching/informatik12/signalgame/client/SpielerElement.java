@@ -12,7 +12,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 
+import de.cpg_gilching.informatik12.signalgame.client.level.AntwortRenderer;
 import de.cpg_gilching.informatik12.signalgame.shared.Helfer;
+import de.cpg_gilching.informatik12.signalgame.shared.level.AntwortKnoten;
 
 public class SpielerElement extends JPanel {
 	
@@ -54,6 +56,10 @@ public class SpielerElement extends JPanel {
 	
 	public void markiereBeantwortet(boolean beantwortet) {
 		tippAnzeige.setVisible(beantwortet);
+	}
+	
+	public void antwortAnzeigen(AntwortKnoten antwort) {
+		tippAnzeige.setIcon(new ImageIcon(new AntwortRenderer(antwort, false).renderBild()));
 	}
 	
 }
