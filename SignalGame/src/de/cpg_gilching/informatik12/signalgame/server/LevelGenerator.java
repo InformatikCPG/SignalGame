@@ -19,7 +19,8 @@ public class LevelGenerator {
 	// Einstellungen
 	private int minimalTiefe = 1;
 	private int maximalTiefe = 6;
-	private int knotenAnzahl = -1;
+	private int knotenAnzahlMin = -1;
+	private int knotenAnzahlMax = -1;
 	private int wurzelInputs = -1;
 	
 	// zum Generieren
@@ -38,8 +39,13 @@ public class LevelGenerator {
 		return this;
 	}
 	
-	public LevelGenerator setKnotenAnzahl(int anzahl) {
-		knotenAnzahl = anzahl;
+	public LevelGenerator setKnotenAnzahlMin(int min) {
+		knotenAnzahlMin = min;
+		return this;
+	}
+	
+	public LevelGenerator setKnotenAnzahlMax(int max) {
+		knotenAnzahlMax = max;
 		return this;
 	}
 	
@@ -49,6 +55,15 @@ public class LevelGenerator {
 		
 		wurzelInputs = anzahl;
 		return this;
+	}
+	
+	private boolean checkCond(int anzahl) {
+		if (knotenAnzahlMin > -1 && anzahl > knotenAnzahlMin)
+			return false;
+		if (knotenAnzahlMax > -1 && anzahl < knotenAnzahlMax)
+			return false;
+		
+		return true;
 	}
 	
 	public Level generiereLevel() {
@@ -64,7 +79,7 @@ public class LevelGenerator {
 			alleKnoten = new HashSet<>();
 			anzahl = wurzel.getGesamtAnzahl(alleKnoten);
 			versuche++;
-		} while (knotenAnzahl > 0 && anzahl != knotenAnzahl && versuche < 200);
+		} while (!checkCond(anzahl) && versuche < 200);
 		
 		// Der Zielknoten soll immer an sein.
 		wurzel.loeseInputs();
