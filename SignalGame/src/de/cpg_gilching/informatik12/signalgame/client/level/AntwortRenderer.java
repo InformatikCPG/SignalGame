@@ -18,33 +18,33 @@ import de.cpg_gilching.informatik12.signalgame.shared.level.AntwortKnoten;
 public class AntwortRenderer {
 	
 	private AntwortKnoten knoten;
-	private BufferedImage bild = new BufferedImage(2 * KNOTEN_GROESSE + 10, 2 * KNOTEN_GROESSE + 10, BufferedImage.TYPE_INT_ARGB);
-	private boolean hover;
+	private BufferedImage bild = new BufferedImage(2 * KNOTEN_GROESSE + 8, 2 * KNOTEN_GROESSE + 8, BufferedImage.TYPE_INT_ARGB);
+	private Color rahmen;
 	
-	public AntwortRenderer(AntwortKnoten knoten, boolean hover) {
+	public AntwortRenderer(AntwortKnoten knoten, Color rahmen) {
 		this.knoten = knoten;
-		this.hover = hover;
+		this.rahmen = rahmen;
 	}
 	
 	public Image renderBild() {
 		Graphics2D g = bild.createGraphics();
 		
-		g.drawImage(bildGate, 5, 5, null);
+		g.drawImage(bildGate, 4, 4, null);
 		
 		for (int i = 0; i < knoten.getAnzahlInputs(); i++) {
 			boolean inputZustand = knoten.getInput(i);
 			int seite = getSeiteFromIndex(i, knoten.getAnzahlInputs());
 			
-			Punkt pkt = getOffsetUnit(seite).mul(KNOTEN_GROESSE - 13).add(new Punkt(5 + KNOTEN_GROESSE, 5 + KNOTEN_GROESSE));
+			Punkt pkt = getOffsetUnit(seite).mul(KNOTEN_GROESSE - 13).add(new Punkt(4 + KNOTEN_GROESSE, 4 + KNOTEN_GROESSE));
 			
 			BufferedImage img = (inputZustand ? bildTrue : bildFalse);
 			g.drawImage(img, pkt.x - img.getWidth() / 2, pkt.y - img.getHeight() / 2, null);
 		}
 		
-		if (hover) {
+		if (rahmen != null) {
 			g.setStroke(new BasicStroke(5.0f));
 			g.setColor(new Color(0x990000FF, true));
-			g.drawRect(0, 0, bild.getWidth() - 1, bild.getHeight() - 1);
+			g.drawRect(2, 2, bild.getWidth() - 5, bild.getHeight() - 5);
 		}
 		
 		return bild;

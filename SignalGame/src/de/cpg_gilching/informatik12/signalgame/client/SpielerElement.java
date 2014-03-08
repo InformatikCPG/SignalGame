@@ -30,7 +30,7 @@ public class SpielerElement extends JPanel {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED, Color.red, Color.black));
 		//setBorder(BorderFactory.createDashedBorder(, thickness, length, spacing, rounded));
-
+		
 		add(this.spielername);
 		add(Box.createHorizontalGlue());
 		tippAnzeige = new JLabel();
@@ -58,7 +58,7 @@ public class SpielerElement extends JPanel {
 	}
 	
 	public void antwortAnzeigen(AntwortKnoten antwort) {
-		tippAnzeige.setIcon(new ImageIcon(new AntwortRenderer(antwort, false).renderBild()));
+		tippAnzeige.setIcon(new ImageIcon(new AntwortRenderer(antwort, null).renderBild()));
 	}
 	
 }

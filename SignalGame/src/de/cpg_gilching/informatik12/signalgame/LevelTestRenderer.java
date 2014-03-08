@@ -55,7 +55,7 @@ public class LevelTestRenderer extends JPanel {
 	public void paint(Graphics g) {
 		g.drawImage(new LevelRenderer(lvl, getWidth(), getHeight()).renderBild(), 0, 0, null);
 		for (int i = 0; i < lvl.antworten.length; i++) {
-			g.drawImage(new AntwortRenderer(lvl.antworten[i], false).renderBild(), 10 + 80 * i, getHeight() - 80, null);
+			g.drawImage(new AntwortRenderer(lvl.antworten[i], null).renderBild(), 10 + 80 * i, getHeight() - 80, null);
 		}
 	}
 }

@@ -115,7 +115,7 @@ public class ClientFenster {
 	
 	public void antwortenEinfuegen(AntwortKnoten[] antworten) {
 		mainPanel2.removeAll();
-		this.antworten= antworten;
+		this.antworten = antworten;
 		
 		for (int i = 0; i < antworten.length; i++) {
 			final int tempI = i;
@@ -123,8 +123,8 @@ public class ClientFenster {
 			box.setLayout(new BoxLayout(box, BoxLayout.X_AXIS));
 			
 			JButton button = new JButton();
-			button.setIcon(new ImageIcon(new AntwortRenderer(antworten[i], false).renderBild()));
-			button.setRolloverIcon(new ImageIcon(new AntwortRenderer(antworten[i], true).renderBild()));
+			button.setIcon(new ImageIcon(new AntwortRenderer(antworten[i], null).renderBild()));
+			button.setRolloverIcon(new ImageIcon(new AntwortRenderer(antworten[i], Color.blue).renderBild()));
 			button.setBorder(BorderFactory.createLineBorder(Color.darkGray, 5));
 			
 			button.addActionListener(new ActionListener() {

@@ -123,7 +123,7 @@ public class SpielVerhalten {
 					verbunden.get(i).sendeRichtigeAntwort(aktLevel.getRichtigeAntwort());
 					
 					for (int a = 0; a < verbunden.size(); a++) {
-						verbunden.get(a).sendeGeantworteteAntwort(verbunden.get(i).getAntwort(), verbunden.get(i).getSpielerName());
+						verbunden.get(i).sendeGeantworteteAntwort(verbunden.get(a).getAntwort(), verbunden.get(a).getSpielerName());
 					}
 				}
 				
