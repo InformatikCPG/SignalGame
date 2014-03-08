@@ -70,6 +70,12 @@ public class Client extends Thread {
 					clientFenster.spielerHatBeantwortet(spielername3);
 					break;
 				
+				case 4:
+					int rA = dataIn.readInt();
+					String spielername4 = dataIn.readUTF();
+					// TO DO: Geantwortete Antwort anzeigen
+					break;
+				
 				case 10:
 					Level level = Level.empfange(dataIn);
 					clientFenster.frageAnzeigen(level);

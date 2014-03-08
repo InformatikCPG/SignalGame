@@ -14,6 +14,8 @@ public class SpielVerhalten {
 	private ArrayList<ClientAufServer> verbunden;
 	private ArrayList<ClientAufServer> richtigBeantwortet;
 	private int timer;
+	private boolean timerAktiv;
+	private int fragenCounter;
 	
 	public SpielVerhalten(Server server) {
 		this.server = server;
@@ -22,10 +24,10 @@ public class SpielVerhalten {
 		geblockt = new ArrayList<ClientAufServer>();
 		verbunden = server.getVerbunden();
 		richtigBeantwortet = new ArrayList<ClientAufServer>();
+		fragenCounter = 0;
 	}
 	
 	public boolean alleBereitPrüfen() {
-		
 		if (verbunden.size() < 2) {
 			return false;
 		}
@@ -39,11 +41,41 @@ public class SpielVerhalten {
 	}
 	
 	public void neueFrage() {
+		fragenCounter++;
+		timerAktiv = false;
+		
+		switch (fragenCounter) {
+		case 1:
+			lg.setWurzelInputs(1);
+			lg.setKnotenAnzahlMin(2);
+			lg.setKnotenAnzahlMax(2);
+			break;
+		
+		case 5:
+			lg.setWurzelInputs(2);
+			lg.setKnotenAnzahlMin(3);
+			lg.setKnotenAnzahlMax(5);
+			break;
+		
+		case 10:
+			lg.setKnotenAnzahlMin(4);
+			lg.setKnotenAnzahlMax(7);
+			break;
+		
+		case 20:
+			lg.setKnotenAnzahlMin(5);
+			lg.setKnotenAnzahlMax(10);
+			lg.setMaximalTiefe(8);
+			break;
+		}
+		
 		aktLevel = lg.generiereLevel();
 		
 		for (int i = 0; i < verbunden.size(); i++) {
+			verbunden.get(i).setAntwort(-1);
 			verbunden.get(i).sendeLevel(aktLevel);
 		}
+		
 		geblockt.clear();
 		richtigBeantwortet.clear();
 	}
@@ -56,6 +88,10 @@ public class SpielVerhalten {
 			
 			if (checkAntwort) {
 				richtigBeantwortet.add(spieler);
+			}
+			
+			for (int i = 0; i < verbunden.size(); i++) {
+				verbunden.get(i).sendeHatBeantwortet(verbunden.get(i).getName());
 			}
 		}
 	}
@@ -76,20 +112,27 @@ public class SpielVerhalten {
 				}
 			}
 			
-			if (geblockt.size() + 1 == verbunden.size()) {
+			if (geblockt.size() == verbunden.size() && !timerAktiv) {
+				timerAktiv = true;
+				
 				for (int i = 0; i < verbunden.size(); i++) {
-					if (!geblockt.contains(verbunden.get(i))) {
-						geblockt.add(verbunden.get(i));
+					if (!richtigBeantwortet.contains(verbunden.get(i))) {
+						server.getPunktetafel().punkteGeben(verbunden.get(i), -1);
 					}
+					
 					verbunden.get(i).sendeRichtigeAntwort(aktLevel.getRichtigeAntwort());
+					
+					for (int a = 0; a < verbunden.size(); a++) {
+						verbunden.get(a).sendeGeantworteteAntwort(verbunden.get(i).getAntwort(), verbunden.get(i).getSpielerName());
+					}
 				}
 				
 				for (int i = 0; i < richtigBeantwortet.size(); i++) {
-					server.getPunktetafel().punkteGeben(richtigBeantwortet.get(i), verbunden.size() - 1 - i);
+					server.getPunktetafel().punkteGeben(richtigBeantwortet.get(i), verbunden.size() - i);
 				}
 			}
 			
-			if (geblockt.size() == verbunden.size()) {
+			if (timerAktiv) {
 				timer++;
 				
 				if (timer > 30) {

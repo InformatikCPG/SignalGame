@@ -45,7 +45,6 @@ public class ClientAufServer extends Thread {
 	
 	public synchronized int getAntwort() {
 		int altAntwort = antwort;
-		antwort = -1;
 		return altAntwort;
 	}
 	
@@ -139,4 +138,22 @@ public class ClientAufServer extends Thread {
 		}
 	}
 	
+	public void sendeHatBeantwortet(String spielername) {
+		try {
+			dataOut.writeInt(3);
+			dataOut.writeUTF(spielername);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void sendeGeantworteteAntwort(int rA, String spielername) {
+		try {
+			dataOut.writeInt(4);
+			dataOut.writeInt(rA);
+			dataOut.writeUTF(spielername);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
