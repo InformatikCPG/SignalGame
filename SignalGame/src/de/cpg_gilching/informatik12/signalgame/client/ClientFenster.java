@@ -35,7 +35,7 @@ public class ClientFenster {
 		this.client = client;
 		
 		fenster = new JFrame("Signalgame");
-		fenster.setSize(1100, 600);
+		fenster.setSize(1100, 650);
 		fenster.setLocationRelativeTo(null);
 		fenster.setResizable(true);
 		fenster.setLayout(new BorderLayout());
@@ -65,7 +65,7 @@ public class ClientFenster {
 		
 		spielerPanel = new JPanel();
 		spielerPanel.setBackground(Color.darkGray);
-		spielerPanel.setPreferredSize(new Dimension(250, 600));
+		spielerPanel.setPreferredSize(new Dimension(300, 600));
 		spielerPanel.setBorder(BorderFactory.createLineBorder(Color.black, 2));
 		spielerPanel.setLayout(new BoxLayout(spielerPanel, BoxLayout.Y_AXIS));
 		fenster.add(spielerPanel, BorderLayout.LINE_START);
@@ -152,10 +152,17 @@ public class ClientFenster {
 	public void frageAnzeigen(Level level) {
 		mainPanel1.removeAll();
 		mainPanel1.add(new JLabel(new ImageIcon(new LevelRenderer(level, mainPanel1.getWidth(), mainPanel1.getHeight()).renderBild())));
+		for (int i = 0; i < spielerPanel.getComponentCount(); i++) {
+			((SpielerElement) spielerPanel.getComponent(i)).markiereBeantwortet(false);
+		}
 	}
 	
 	public void antwortMarkieren(int antwort) {
 		((JButton) ((JPanel) mainPanel2.getComponent(antwort)).getComponent(1)).setBorder(BorderFactory.createLineBorder(Color.blue, 5));
+		//Mouse-Hover wird für alle Elemente im mainPanel2 ausgeschaltet.
+		for (int i = 0; i < mainPanel2.getComponentCount(); i++) {
+			((JButton) ((JPanel) mainPanel2.getComponent(i)).getComponent(1)).setRolloverIcon(null);
+		}
 	}
 	
 	public void korrigieren(int antwort, int korrekt) {

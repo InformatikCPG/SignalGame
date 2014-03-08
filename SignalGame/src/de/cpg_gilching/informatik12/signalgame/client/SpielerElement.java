@@ -1,32 +1,45 @@
 package de.cpg_gilching.informatik12.signalgame.client;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
+
+import de.cpg_gilching.informatik12.signalgame.shared.Helfer;
 
 public class SpielerElement extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
 	private JLabel spielername;
 	private JLabel punktanzahl;
+	private JLabel tippAnzeige;
 	
 	public SpielerElement(String spielernameneu, int startpunktanzahl) {
 		spielername = new JLabel(spielernameneu);
 		punktanzahl = new JLabel("" + startpunktanzahl);
 		
-		setLayout(new BorderLayout());
+		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED, Color.red, Color.black));
 		//setBorder(BorderFactory.createDashedBorder(, thickness, length, spacing, rounded));
-		add(this.spielername, BorderLayout.LINE_START);
-		add(punktanzahl, BorderLayout.LINE_END);
+
+		add(this.spielername);
+		add(Box.createHorizontalGlue());
+		tippAnzeige = new JLabel();
+		tippAnzeige.setVisible(false);
+		//tippAnzeige.setText("test");
+		tippAnzeige.setIcon(new ImageIcon(Helfer.bildLaden("gesucht.png")));
+		add(tippAnzeige);
+		add(punktanzahl);
+		
 		setName(spielernameneu);
-		setMaximumSize(new Dimension(240, 50));
+		setMaximumSize(new Dimension(290, 70));
 		
 		spielername.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 16));
 		spielername.setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 20));
@@ -40,7 +53,7 @@ public class SpielerElement extends JPanel {
 	}
 	
 	public void markiereBeantwortet(boolean beantwortet) {
-		
+		tippAnzeige.setVisible(beantwortet);
 	}
 	
 }
