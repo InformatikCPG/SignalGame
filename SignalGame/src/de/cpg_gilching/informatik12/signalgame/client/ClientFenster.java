@@ -105,6 +105,14 @@ public class ClientFenster {
 		}
 	}
 	
+	public void spielerHatBeantwortet(String spielername) {
+		for (int i = 0; i < spielerPanel.getComponentCount(); i++) {
+			if (spielerPanel.getComponent(i).getName().equals(spielername)) {
+				((SpielerElement) spielerPanel.getComponent(i)).markiereBeantwortet(true);
+			}
+		}
+	}
+	
 	public void antwortenEinfuegen(AntwortKnoten[] antworten) {
 		mainPanel2.removeAll();
 		

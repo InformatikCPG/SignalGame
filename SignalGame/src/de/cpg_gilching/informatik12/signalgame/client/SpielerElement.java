@@ -26,7 +26,7 @@ public class SpielerElement extends JPanel {
 		add(this.spielername, BorderLayout.LINE_START);
 		add(punktanzahl, BorderLayout.LINE_END);
 		setName(spielernameneu);
-		setMaximumSize(new Dimension(240,50));
+		setMaximumSize(new Dimension(240, 50));
 		
 		spielername.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 16));
 		spielername.setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 20));
@@ -37,6 +37,10 @@ public class SpielerElement extends JPanel {
 	
 	public void punkteAktualisieren(int punktanzahlneu) {
 		punktanzahl.setText("" + punktanzahlneu);
+	}
+	
+	public void markiereBeantwortet(boolean beantwortet) {
+		
 	}
 	
 }
