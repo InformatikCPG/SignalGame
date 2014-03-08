@@ -28,6 +28,7 @@ public class LevelRenderer {
 	public static BufferedImage bildGesucht = Helfer.bildLaden("gesucht.png");
 	
 	private Level level;
+	private boolean zeigeZustaende;
 	
 	private BufferedImage bild;
 	private Graphics2D g;
@@ -36,7 +37,12 @@ public class LevelRenderer {
 	private Map<Knoten, Integer> statikVerbindungen = new HashMap<>();
 	
 	public LevelRenderer(Level level, int breite, int hoehe) {
+		this(level, breite, hoehe, false);
+	}
+	
+	public LevelRenderer(Level level, int breite, int hoehe, boolean zeigeZustaende) {
 		this.level = level;
+		this.zeigeZustaende = zeigeZustaende;
 		this.bild = new BufferedImage(breite, hoehe, BufferedImage.TYPE_INT_ARGB);
 		this.g = bild.createGraphics();
 	}
@@ -52,7 +58,7 @@ public class LevelRenderer {
 		statikVerbindungen.clear();
 		
 		drawRecursive(level.wurzel, bild.getWidth() - 100, bild.getHeight() / 2);
-		drawVerbindung(bild.getWidth() - 100, bild.getHeight() / 2, bild.getWidth() + 100, bild.getHeight() / 2, 1);
+		drawVerbindung(bild.getWidth() - 100, bild.getHeight() / 2, bild.getWidth() + 100, bild.getHeight() / 2, 1, true);
 		drawStatikquellen();
 		
 		return bild;
@@ -101,8 +107,11 @@ public class LevelRenderer {
 				// Koordinaten des Input-Knotens auslesen
 				Punkt p = gezeichnet.get(k.quelle);
 				
+				Boolean zustand = null;
+				if (zeigeZustaende)
+					zustand = ((Knoten) k.quelle).getOutput();
 				
-				drawVerbindung(p.x, p.y, sx, sy, seite);
+				drawVerbindung(p.x, p.y, sx, sy, seite, zustand);
 			}
 			
 			else {
@@ -131,7 +140,7 @@ public class LevelRenderer {
 		}
 	}
 	
-	private void drawVerbindung(int vonX, int vonY, int nachX, int nachY, int seite) {
+	private void drawVerbindung(int vonX, int vonY, int nachX, int nachY, int seite, Boolean aktiv) {
 		Punkt nachKante = new Punkt(nachX, nachY).add(getOffsetKante(seite));
 		Punkt nachAbstand = new Punkt(nachX, nachY).add(getOffsetAbstand(seite));
 		
@@ -143,7 +152,7 @@ public class LevelRenderer {
 		path.lineTo(nachKante.x, nachKante.y);
 		
 		
-		g.setColor(Color.black);
+		g.setColor(aktiv == null ? Color.gray : (aktiv ? new Color(0x00CC33) : new Color(0xCC3300)));
 		g.draw(path);
 	}
 	
@@ -164,7 +173,7 @@ public class LevelRenderer {
 			maxY = Math.max(maxY, y);
 		}
 		
-		g.setColor(Color.black);
+		g.setColor(new Color(0x00CC33));
 		
 		for (Entry<Knoten, Integer> e : statikVerbindungen.entrySet()) {
 			Punkt ziel = gezeichnet.get(e.getKey());
