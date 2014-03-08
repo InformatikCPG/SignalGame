@@ -19,6 +19,8 @@ public class Client extends Thread {
 	private String spielername;
 	private ClientFenster clientFenster;
 	
+	private int markierteAntwort = -1;
+	
 	public Client(String IP, int port, String spielername, LoginFenster loginFenster) {
 		try {
 			System.out.println("Client verbindet zu " + IP + ":" + port + " mit dem Spielernamen " + spielername);
@@ -56,18 +58,31 @@ public class Client extends Thread {
 					int startpunktanzahl = dataIn.readInt();
 					clientFenster.spielerEinfuegen(spielername, startpunktanzahl);
 					break;
+				
+				case 2:
+					String spielername2 = dataIn.readUTF();
+					int neuePunkte = dataIn.readInt();
+					clientFenster.spielerElementAktualisieren(spielername2, neuePunkte);
+					break;
+				
 				case 10:
 					Level level = Level.empfange(dataIn);
 					clientFenster.frageAnzeigen(level);
 					clientFenster.antwortenEinfuegen(level.antworten);
+					
+					markierteAntwort = -1;
 					break;
+				
 				case 11:
-					boolean ergebnis = dataIn.readBoolean();
-					clientFenster.antwortMarkieren(0);
+					markierteAntwort = dataIn.readInt();
+					clientFenster.antwortMarkieren(markierteAntwort);
 					break;
+				
 				case 12:
 					int richtigeAntwort = dataIn.readInt();
+					clientFenster.korrigieren(markierteAntwort, richtigeAntwort);
 					break;
+				
 				default:
 					System.out.println("Falsche ID von Server!");
 					break;

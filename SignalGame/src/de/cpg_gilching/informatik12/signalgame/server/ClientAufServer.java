@@ -80,6 +80,7 @@ public class ClientAufServer extends Thread {
 					break;
 				case 2:
 					setBereit(true);
+					System.out.println(getSpielerName() + " ist bereit.");
 					break;
 				default:
 					System.out.println("Falsche ID von Client!");
@@ -101,6 +102,16 @@ public class ClientAufServer extends Thread {
 		}
 	}
 	
+	public void sendePunktestand(String spielername, int neuerPunktestand) {
+		try {
+			dataOut.writeInt(2);
+			dataOut.writeUTF(spielername);
+			dataOut.writeInt(neuerPunktestand);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void sendeLevel(Level level) {
 		try {
 			dataOut.writeInt(10);
@@ -110,10 +121,10 @@ public class ClientAufServer extends Thread {
 		}
 	}
 	
-	public void sendeErgebnis(boolean ergebnis) {
+	public void sendeMarkierung(int antwort) {
 		try {
 			dataOut.writeInt(11);
-			dataOut.writeBoolean(ergebnis);
+			dataOut.writeInt(antwort);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
