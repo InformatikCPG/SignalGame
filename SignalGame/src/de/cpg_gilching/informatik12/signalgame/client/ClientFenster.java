@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -15,7 +16,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.text.IconView;
 
 import de.cpg_gilching.informatik12.signalgame.client.level.AntwortRenderer;
 import de.cpg_gilching.informatik12.signalgame.client.level.LevelPanel;
@@ -74,7 +74,7 @@ public class ClientFenster {
 		fenster.add(spielerPanel, BorderLayout.LINE_START);
 		
 		//Helfer.bildLaden("laden.gif")
-		JLabel laden = new JLabel(new ImageIcon(Helfer.bildLaden("laden.gif")));
+		JLabel laden = new JLabel(new ImageIcon(Toolkit.getDefaultToolkit().getImage(Helfer.bildAlsURL("laden.gif"))));
 		mainPanel1.add(laden);
 		
 		final JButton bereitBtn = new JButton("Bereit?");
@@ -187,7 +187,7 @@ public class ClientFenster {
 		AntwortKnoten knoten = antworten[antwort];
 		for (int i = 0; i < spielerPanel.getComponentCount(); i++) {
 			if (spielerPanel.getComponent(i).getName().equals(spielername)) {
-				if(antwort == richtigeAntwort) {
+				if (antwort == richtigeAntwort) {
 					((SpielerElement) spielerPanel.getComponent(i)).antwortAnzeigen(knoten, true);
 				}
 				else {

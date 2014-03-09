@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 import java.util.Random;
 
@@ -119,4 +121,22 @@ public class Helfer {
 		}
 	}
 	
+	public static URL bildAlsURL(String name) {
+		URL bildURL = null;
+		try {
+			bildURL = Helfer.class.getResource("/bilder/" + name);
+			if (bildURL == null) {
+				File bildDatei = new File("bilder", name);
+				if (bildDatei.isFile()) {
+					bildURL = bildDatei.toURI().toURL();
+				}
+				else {
+					System.err.println("Bild " + name + " wurde nicht gefunden!");
+				}
+			}
+		} catch (MalformedURLException e) {
+		}
+		
+		return bildURL;
+	}
 }
