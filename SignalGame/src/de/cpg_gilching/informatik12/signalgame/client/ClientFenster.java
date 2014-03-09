@@ -27,9 +27,11 @@ public class ClientFenster {
 	
 	private JFrame fenster;
 	private JPanel mainPanel;
-	private JPanel mainPanel1;
-	private JPanel mainPanel2;
+	private JPanel mainPanelMitte;
+	private JPanel mainPanelUnten;
+	private JPanel mainPanelLinks;
 	private JPanel spielerPanel;
+	private JPanel ladePanel;
 	private AntwortKnoten antworten[];
 	Client client;
 	
@@ -37,45 +39,28 @@ public class ClientFenster {
 		
 		this.client = client;
 		
-		fenster = new JFrame("Signalgame");
-		fenster.setSize(1100, 650);
-		fenster.setLocationRelativeTo(null);
-		fenster.setResizable(true);
-		fenster.setLayout(new BorderLayout());
-		fenster.setMinimumSize(new Dimension(825, 450));
-		fenster.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		fenster.setVisible(true);
-		
-		mainPanel = new JPanel();
-		mainPanel.setBackground(Color.darkGray);
-		mainPanel.setLayout(new BorderLayout());
-		fenster.add(mainPanel, BorderLayout.CENTER);
-		
-		mainPanel1 = new JPanel();
-		mainPanel1.setBackground(Color.darkGray);
-		mainPanel1.setBorder(BorderFactory.createLineBorder(Color.black, 2));
-		mainPanel1.setLayout(new BorderLayout());
-		mainPanel.add(mainPanel1, BorderLayout.CENTER);
-		
-		//mainPanel1.add(new JLabel(new ImageIcon("res/Correct.png")));
-		
-		mainPanel2 = new JPanel();
-		mainPanel2.setBackground(Color.darkGray);
-		mainPanel2.setPreferredSize(new Dimension(900, 150));
-		mainPanel2.setBorder(BorderFactory.createLineBorder(Color.black, 2));
-		mainPanel2.setLayout(new BoxLayout(mainPanel2, BoxLayout.X_AXIS));
-		mainPanel.add(mainPanel2, BorderLayout.PAGE_END);
-		
 		spielerPanel = new JPanel();
 		spielerPanel.setBackground(Color.darkGray);
-		spielerPanel.setPreferredSize(new Dimension(300, 600));
+		spielerPanel.setPreferredSize(new Dimension(300, 1280)); //542
 		spielerPanel.setBorder(BorderFactory.createLineBorder(Color.black, 2));
 		spielerPanel.setLayout(new BoxLayout(spielerPanel, BoxLayout.Y_AXIS));
-		fenster.add(spielerPanel, BorderLayout.LINE_START);
 		
-		//Helfer.bildLaden("laden.gif")
-		JLabel laden = new JLabel(new ImageIcon(Toolkit.getDefaultToolkit().getImage(Helfer.bildAlsURL("laden.gif"))));
-		mainPanel1.add(laden);
+		JLabel ladengif = new JLabel(new ImageIcon(Toolkit.getDefaultToolkit().getImage(Helfer.bildAlsURL("laden2.gif"))));
+		
+		ladePanel = new JPanel();
+		ladePanel.setBackground(Color.darkGray);
+		ladePanel.setPreferredSize(new Dimension(300, 70));
+		//ladePanel.setBorder(BorderFactory.createLineBorder(Color.black, 2));
+		ladePanel.setLayout(new BorderLayout());
+			ladePanel.add(ladengif, BorderLayout.CENTER);
+		ladePanel.setVisible(true);
+		
+		mainPanelLinks = new JPanel();
+		mainPanelLinks.setBackground(Color.darkGray);
+		mainPanelLinks.setPreferredSize(new Dimension(300, 600));
+		mainPanelLinks.setLayout(new BorderLayout());
+			mainPanelLinks.add(spielerPanel, BorderLayout.PAGE_START);
+			mainPanelLinks.add(ladePanel, BorderLayout.PAGE_END);
 		
 		final JButton bereitBtn = new JButton("Bereit?");
 		bereitBtn.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));
@@ -87,8 +72,36 @@ public class ClientFenster {
 				bereitBtn.setBackground(Color.green);
 			}
 		});
-		mainPanel1.add(bereitBtn, BorderLayout.PAGE_END);
 		
+		mainPanelMitte = new JPanel();
+		mainPanelMitte.setBackground(Color.darkGray);
+		mainPanelMitte.setBorder(BorderFactory.createLineBorder(Color.black, 2));
+		mainPanelMitte.setLayout(new BorderLayout());
+			mainPanelMitte.add(bereitBtn, BorderLayout.PAGE_END);
+			//mainPanel1.add(ladengif);
+		
+		mainPanelUnten = new JPanel();
+		mainPanelUnten.setBackground(Color.darkGray);
+		mainPanelUnten.setPreferredSize(new Dimension(900, 150));
+		mainPanelUnten.setBorder(BorderFactory.createLineBorder(Color.black, 2));
+		mainPanelUnten.setLayout(new BoxLayout(mainPanelUnten, BoxLayout.X_AXIS));
+		
+		mainPanel = new JPanel();
+		mainPanel.setBackground(Color.darkGray);
+		mainPanel.setLayout(new BorderLayout());
+			mainPanel.add(mainPanelMitte, BorderLayout.CENTER);
+			mainPanel.add(mainPanelUnten, BorderLayout.PAGE_END);
+		
+		fenster = new JFrame("Signalgame");
+		fenster.setSize(1100, 650);
+		fenster.setLocationRelativeTo(null);
+		fenster.setResizable(true);
+		fenster.setLayout(new BorderLayout());
+		fenster.setMinimumSize(new Dimension(825, 450));
+		fenster.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			fenster.add(mainPanel, BorderLayout.CENTER);
+			fenster.add(mainPanelLinks, BorderLayout.LINE_START);
+		fenster.setVisible(true);
 	}
 	
 	public void spielerEinfuegen(String spielername, int startpunktanzahl) {
@@ -120,7 +133,7 @@ public class ClientFenster {
 	}
 	
 	public void antwortenEinfuegen(AntwortKnoten[] antworten) {
-		mainPanel2.removeAll();
+		mainPanelUnten.removeAll();
 		this.antworten = antworten;
 		
 		for (int i = 0; i < antworten.length; i++) {
@@ -146,41 +159,43 @@ public class ClientFenster {
 			box.add(Box.createHorizontalGlue());
 			box.setBackground(null);
 			
-			mainPanel2.add(box);
+			mainPanelUnten.add(box);
 		}
 		
-		mainPanel2.revalidate();
+		mainPanelUnten.revalidate();
 	}
 	
 	public void antwortenEntfernen() {
-		mainPanel2.removeAll();
+		mainPanelUnten.removeAll();
 	}
 	
 	public void frageAnzeigen(Level level) {
-		mainPanel1.removeAll();
-		mainPanel1.add(new LevelPanel(level));
+		mainPanelMitte.removeAll();
+		mainPanelMitte.add(new LevelPanel(level));
 		for (int i = 0; i < spielerPanel.getComponentCount(); i++) {
 			((SpielerElement) spielerPanel.getComponent(i)).tippAnzeigen(false);
 		}
+		ladePanel.setVisible(false);
 	}
 	
 	public void antwortMarkieren(int antwort) {
-		((JButton) ((JPanel) mainPanel2.getComponent(antwort)).getComponent(1)).setBorder(BorderFactory.createLineBorder(Color.blue, 5));
+		((JButton) ((JPanel) mainPanelUnten.getComponent(antwort)).getComponent(1)).setBorder(BorderFactory.createLineBorder(Color.blue, 5));
 		//Mouse-Hover wird für alle Elemente im mainPanel2 ausgeschaltet.
-		for (int i = 0; i < mainPanel2.getComponentCount(); i++) {
-			((JButton) ((JPanel) mainPanel2.getComponent(i)).getComponent(1)).setRolloverIcon(null);
+		for (int i = 0; i < mainPanelUnten.getComponentCount(); i++) {
+			((JButton) ((JPanel) mainPanelUnten.getComponent(i)).getComponent(1)).setRolloverIcon(null);
 		}
 	}
 	
 	public void korrigieren(int antwort, int korrekt) {
+		ladePanel.setVisible(true);
 		if (antwort == korrekt) {
-			((JButton) ((JPanel) mainPanel2.getComponent(antwort)).getComponent(1)).setBorder(BorderFactory.createLineBorder(Color.green, 5));
+			((JButton) ((JPanel) mainPanelUnten.getComponent(antwort)).getComponent(1)).setBorder(BorderFactory.createLineBorder(Color.green, 5));
 		}
 		else if (antwort > -1) {
-			((JButton) ((JPanel) mainPanel2.getComponent(antwort)).getComponent(1)).setBorder(BorderFactory.createLineBorder(Color.red, 5));
+			((JButton) ((JPanel) mainPanelUnten.getComponent(antwort)).getComponent(1)).setBorder(BorderFactory.createLineBorder(Color.red, 5));
 		}
 		
-		((JButton) ((JPanel) mainPanel2.getComponent(korrekt)).getComponent(1)).setBorder(BorderFactory.createLineBorder(Color.green, 5));
+		((JButton) ((JPanel) mainPanelUnten.getComponent(korrekt)).getComponent(1)).setBorder(BorderFactory.createLineBorder(Color.green, 5));
 	}
 	
 	public void antwortAnzeigen(String spielername, int antwort, int richtigeAntwort) {
