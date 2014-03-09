@@ -50,7 +50,7 @@ public class ClientFenster {
 		ladePanel = new JPanel();
 		ladePanel.setBackground(Color.darkGray);
 		ladePanel.setPreferredSize(new Dimension(300, 70));
-		//ladePanel.setBorder(BorderFactory.createLineBorder(Color.black, 2));
+		ladePanel.setBorder(BorderFactory.createLineBorder(Color.black, 2));
 		ladePanel.setLayout(new BorderLayout());
 			ladePanel.add(ladengif, BorderLayout.CENTER);
 		ladePanel.setVisible(true);
