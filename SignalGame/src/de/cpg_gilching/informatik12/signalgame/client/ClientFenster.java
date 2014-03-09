@@ -13,10 +13,13 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.text.IconView;
 
 import de.cpg_gilching.informatik12.signalgame.client.level.AntwortRenderer;
 import de.cpg_gilching.informatik12.signalgame.client.level.LevelPanel;
+import de.cpg_gilching.informatik12.signalgame.shared.Helfer;
 import de.cpg_gilching.informatik12.signalgame.shared.level.AntwortKnoten;
 import de.cpg_gilching.informatik12.signalgame.shared.level.Level;
 
@@ -70,6 +73,9 @@ public class ClientFenster {
 		spielerPanel.setLayout(new BoxLayout(spielerPanel, BoxLayout.Y_AXIS));
 		fenster.add(spielerPanel, BorderLayout.LINE_START);
 		
+		//Helfer.bildLaden("laden.gif")
+		JLabel laden = new JLabel(new ImageIcon(Helfer.bildLaden("laden.gif")));
+		mainPanel1.add(laden);
 		
 		final JButton bereitBtn = new JButton("Bereit?");
 		bereitBtn.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));
