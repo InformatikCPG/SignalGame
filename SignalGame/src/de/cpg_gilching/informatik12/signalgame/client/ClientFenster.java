@@ -41,8 +41,7 @@ public class ClientFenster {
 		
 		spielerPanel = new JPanel();
 		spielerPanel.setBackground(Color.darkGray);
-		spielerPanel.setPreferredSize(new Dimension(300, 1280)); //542
-		spielerPanel.setBorder(BorderFactory.createLineBorder(Color.black, 2));
+		spielerPanel.setPreferredSize(new Dimension(300, 600));
 		spielerPanel.setLayout(new BoxLayout(spielerPanel, BoxLayout.Y_AXIS));
 		
 		JLabel ladengif = new JLabel(new ImageIcon(Toolkit.getDefaultToolkit().getImage(Helfer.bildAlsURL("laden2.gif"))));
@@ -50,7 +49,6 @@ public class ClientFenster {
 		ladePanel = new JPanel();
 		ladePanel.setBackground(Color.darkGray);
 		ladePanel.setPreferredSize(new Dimension(300, 70));
-		ladePanel.setBorder(BorderFactory.createLineBorder(Color.black, 2));
 		ladePanel.setLayout(new BorderLayout());
 			ladePanel.add(ladengif, BorderLayout.CENTER);
 		ladePanel.setVisible(true);
@@ -58,6 +56,7 @@ public class ClientFenster {
 		mainPanelLinks = new JPanel();
 		mainPanelLinks.setBackground(Color.darkGray);
 		mainPanelLinks.setPreferredSize(new Dimension(300, 600));
+		mainPanelLinks.setBorder(BorderFactory.createLineBorder(Color.black, 2));
 		mainPanelLinks.setLayout(new BorderLayout());
 			mainPanelLinks.add(spielerPanel, BorderLayout.PAGE_START);
 			mainPanelLinks.add(ladePanel, BorderLayout.PAGE_END);
