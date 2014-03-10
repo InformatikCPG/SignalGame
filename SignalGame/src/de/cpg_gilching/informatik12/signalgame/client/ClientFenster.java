@@ -32,6 +32,10 @@ public class ClientFenster {
 	private JPanel mainPanelLinks;
 	private JPanel spielerPanel;
 	private JPanel ladePanel;
+	private JPanel tutorialPanel;
+	private JPanel bereitPanel;
+	private JPanel leeresPanel;
+	private JPanel leeresPanel2;
 	private AntwortKnoten antworten[];
 	Client client;
 	
@@ -61,9 +65,22 @@ public class ClientFenster {
 			mainPanelLinks.add(spielerPanel, BorderLayout.PAGE_START);
 			mainPanelLinks.add(ladePanel, BorderLayout.PAGE_END);
 		
+		final JButton tutorialBtn =  new JButton("Tutorial starten?");
+		tutorialBtn.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));
+		tutorialBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				tutorialBtn.setBackground(Color.yellow);
+				ClientFenster.this.client.starteTutorial();
+			}
+		});
+		tutorialPanel = new JPanel();
+		tutorialPanel.setPreferredSize(new Dimension(300, 50));
+		tutorialPanel.setLayout(new BorderLayout());
+			tutorialPanel.add(tutorialBtn, BorderLayout.CENTER);
+		
 		final JButton bereitBtn = new JButton("Bereit?");
 		bereitBtn.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));
-		bereitBtn.setPreferredSize(new Dimension(100, 50));
 		bereitBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -71,13 +88,27 @@ public class ClientFenster {
 				bereitBtn.setBackground(Color.green);
 			}
 		});
+		bereitPanel = new JPanel();
+		bereitPanel.setPreferredSize(new Dimension(300, 50));
+		bereitPanel.setLayout(new BorderLayout());
+			bereitPanel.add(bereitBtn, BorderLayout.CENTER);
+		
+		leeresPanel = new JPanel();
+		leeresPanel.setBackground(Color.darkGray);
+		leeresPanel.setPreferredSize(new Dimension(300, 300));
+		
+		leeresPanel2 = new JPanel();
+		leeresPanel2.setBackground(Color.darkGray);
+		leeresPanel2.setPreferredSize(new Dimension(300, 50));
 		
 		mainPanelMitte = new JPanel();
 		mainPanelMitte.setBackground(Color.darkGray);
 		mainPanelMitte.setBorder(BorderFactory.createLineBorder(Color.black, 2));
-		mainPanelMitte.setLayout(new BorderLayout());
-			mainPanelMitte.add(bereitBtn, BorderLayout.PAGE_END);
-			//mainPanel1.add(ladengif);
+		mainPanelMitte.setLayout(new BoxLayout(mainPanelMitte, BoxLayout.Y_AXIS));
+			mainPanelMitte.add(leeresPanel);
+			mainPanelMitte.add(bereitPanel);
+			mainPanelMitte.add(leeresPanel2);
+			mainPanelMitte.add(tutorialPanel);
 		
 		mainPanelUnten = new JPanel();
 		mainPanelUnten.setBackground(Color.darkGray);
@@ -92,7 +123,7 @@ public class ClientFenster {
 			mainPanel.add(mainPanelUnten, BorderLayout.PAGE_END);
 		
 		fenster = new JFrame("Signalgame");
-		fenster.setSize(1100, 650);
+		fenster.setSize(1000, 600);
 		fenster.setLocationRelativeTo(null);
 		fenster.setResizable(true);
 		fenster.setLayout(new BorderLayout());

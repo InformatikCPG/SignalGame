@@ -125,4 +125,8 @@ public class Client extends Thread {
 			e.printStackTrace();
 		}
 	}
+	
+	public void starteTutorial() {
+		new TutorialFenster();
+	}
 }
