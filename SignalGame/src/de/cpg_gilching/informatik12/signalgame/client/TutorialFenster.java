@@ -15,7 +15,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import de.cpg_gilching.informatik12.signalgame.client.level.LevelRenderer;
 import de.cpg_gilching.informatik12.signalgame.shared.Helfer;
 
 public class TutorialFenster {
@@ -39,7 +38,6 @@ public class TutorialFenster {
 		weiterBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				weiterBtn.setBackground(Color.green);
 				weiter();
 			}
 		});
@@ -48,7 +46,6 @@ public class TutorialFenster {
 		zurueckBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				zurueckBtn.setBackground(Color.red);
 				zurueck();
 			}
 		});
@@ -100,19 +97,31 @@ public class TutorialFenster {
 	
 	public void aktualisieren() {
 		JLabel bild = new JLabel(new ImageIcon(bilder[zaehler]));
+		mainPanelMitte.removeAll();
 		mainPanelMitte.add(bild, BorderLayout.CENTER);
+		mainPanelMitte.validate();
+
 		if(zaehler == bilder.length -1) {
-			weiterBtn.setVisible(false);
+			weiterBtn.setEnabled(false);
+		}
+		else {
+			weiterBtn.setEnabled(true);
+		}
+		
+		if (zaehler == 0) {
+			zurueckBtn.setEnabled(false);
+		}
+		else {
+			zurueckBtn.setEnabled(true);
 		}
 	}
 	
 	public void bilderLaden() {
-		bilder = new BufferedImage[1];
-		bilder[0] = Helfer.bildLaden("tutorial0.png");
-		//for() ausfüllen
-		//for(int i=0; i<1; i++) {
-		//	bilder[i] = Helfer.bildLaden("tutorial" + i + ".png");
-		//}
+		bilder = new BufferedImage[8];
+		
+		for (int i = 0; i < bilder.length; i++) {
+			bilder[i] = Helfer.bildLaden("tutorial" + i + ".png");
+		}
 	}
 	
 }
