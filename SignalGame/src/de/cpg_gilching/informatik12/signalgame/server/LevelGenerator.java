@@ -113,7 +113,7 @@ public class LevelGenerator {
 		}
 		
 		// Verzweigungen erstellen
-		int a = Helfer.zufallsZahl(2, 5) / 2; // 67%->1, 33%->2
+		int a = Helfer.zufallsZahl(2, 5) / 2;
 		
 		if (d == 0 && wurzelInputs != -1) // wurzel
 			a = wurzelInputs;
@@ -124,7 +124,7 @@ public class LevelGenerator {
 		for (int i = 0; i < a; i++) {
 			Knoten input;
 			
-			if (!crossInputs.isEmpty() && rand.nextInt(3) == 0) {
+			if (!crossInputs.isEmpty() && a == 1 && rand.nextInt(3) != 0) { // 67% Chance
 				input = Helfer.zufallsElement(crossInputs, true);
 			}
 			else {
