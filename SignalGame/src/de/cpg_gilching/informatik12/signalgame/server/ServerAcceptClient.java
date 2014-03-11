@@ -28,6 +28,7 @@ public class ServerAcceptClient extends Thread {
 			s.close();
 		} catch (IOException e) {
 			e.printStackTrace();
+			server.serverStoppen();
 		}
 	}
 }

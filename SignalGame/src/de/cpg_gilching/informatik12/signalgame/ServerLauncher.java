@@ -5,7 +5,12 @@ import de.cpg_gilching.informatik12.signalgame.server.Server;
 public class ServerLauncher {
 	
 	public static void main(String[] args) {
-		new Server(1337).hauptSchleife();
+		int port = 1337;
+		
+		if (args.length > 0)
+			port = Integer.parseInt(args[0]);
+		
+		new Server(port).hauptSchleife();
 	}
 	
 }

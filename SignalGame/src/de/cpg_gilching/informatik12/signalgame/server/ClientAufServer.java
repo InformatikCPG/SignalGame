@@ -70,7 +70,12 @@ public class ClientAufServer extends Thread {
 				
 				switch (id) {
 				case 0:
-					setSpielerName(dataIn.readUTF());
+					String spielername = dataIn.readUTF();
+					if (spielername.length() > 16) {
+						spielername = spielername.substring(0, 16);
+					}
+
+					setSpielerName(spielername);
 					System.out.println("Name wurde auf " + getSpielerName() + " gesetzt.");
 					
 					server.getPunktetafel().clientHinzufuegen(this);
