@@ -27,8 +27,18 @@ public class SpielVerhalten {
 		fragenCounter = 0;
 	}
 	
+	public void behandleDisconnect(ClientAufServer csa) {
+		geblockt.remove(csa);
+		richtigBeantwortet.remove(csa);
+		
+		if (verbunden.size() == 0) {
+			gestartet = false;
+			aktLevel = null;
+		}
+	}
+	
 	public boolean alleBereitPrüfen() {
-		if (verbunden.size() < 2) {
+		if (verbunden.size() < 1) {
 			return false;
 		}
 		
@@ -49,6 +59,8 @@ public class SpielVerhalten {
 			lg.setWurzelInputs(1);
 			lg.setKnotenAnzahlMin(2);
 			lg.setKnotenAnzahlMax(2);
+			lg.setMinimalTiefe(1);
+			lg.setMaximalTiefe(5);
 			break;
 		
 		case 5:
@@ -60,6 +72,7 @@ public class SpielVerhalten {
 		case 10:
 			lg.setKnotenAnzahlMin(5);
 			lg.setKnotenAnzahlMax(8);
+			lg.setMaximalTiefe(6);
 			break;
 		
 		case 15:
@@ -73,6 +86,8 @@ public class SpielVerhalten {
 			break;
 		}
 		
+		System.out.println("Level " + fragenCounter + " ...");
+
 		aktLevel = lg.generiereLevel();
 		
 		for (int i = 0; i < verbunden.size(); i++) {
@@ -145,5 +160,9 @@ public class SpielVerhalten {
 				}
 			}
 		}
+	}
+	
+	public Level getAktLevel() {
+		return aktLevel;
 	}
 }

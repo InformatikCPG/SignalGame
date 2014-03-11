@@ -10,6 +10,7 @@ public class Server {
 	
 	private ArrayList<ClientAufServer> verbunden = new ArrayList<ClientAufServer>();
 	private ArrayList<ClientAufServer> neueSpieler = new ArrayList<ClientAufServer>();
+	private ArrayList<ClientAufServer> getrennteSpieler = new ArrayList<ClientAufServer>();
 	
 	private Punktetafel punktetafel;
 	
@@ -36,7 +37,7 @@ public class Server {
 				Thread.sleep(100);
 				
 				// temporäre Liste in die verbunden-Liste integrieren
-				neueSpielerKopieren();
+				spielerKopieren();
 				spielVerhalten.spielTick();
 				
 			} catch (InterruptedException e) {
@@ -45,9 +46,16 @@ public class Server {
 		}
 	}
 	
-	private synchronized void neueSpielerKopieren() {
+	private synchronized void spielerKopieren() {
 		verbunden.addAll(neueSpieler);
 		neueSpieler.clear();
+		
+		for (int i = 0; i < getrennteSpieler.size(); i++) {
+			verbunden.remove(getrennteSpieler.get(i));
+			punktetafel.clientEntfernen(getrennteSpieler.get(i));
+			spielVerhalten.behandleDisconnect(getrennteSpieler.get(i));
+		}
+		getrennteSpieler.clear();
 	}
 	
 	public synchronized void verbindeClient(ClientAufServer csa) {
@@ -56,6 +64,11 @@ public class Server {
 		csa.start();
 	}
 	
+	public synchronized void trenneClient(ClientAufServer csa) {
+		System.out.println("Trenne Client " + csa.getSpielerName());
+		getrennteSpieler.add(csa);
+	}
+
 	public Punktetafel getPunktetafel() {
 		return punktetafel;
 	}
@@ -64,4 +77,8 @@ public class Server {
 		return verbunden;
 	}
 	
+	public SpielVerhalten getSpielVerhalten() {
+		return spielVerhalten;
+	}
+
 }

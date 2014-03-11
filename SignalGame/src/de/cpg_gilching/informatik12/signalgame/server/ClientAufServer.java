@@ -15,10 +15,12 @@ public class ClientAufServer extends Thread {
 	private Socket socket;
 	private DataInputStream dataIn;
 	private DataOutputStream dataOut;
+
 	private int antwort;
 	private boolean bereit = false;
-	
 	private String name = "Unbekannt";
+	
+	private boolean verbunden = true;
 	
 	ClientAufServer(Server server, Socket socket) {
 		this.server = server;
@@ -63,7 +65,7 @@ public class ClientAufServer extends Thread {
 	@Override
 	public void run() {
 		try {
-			while (true) {
+			while (verbunden) {
 				int id = dataIn.readInt();
 				
 				switch (id) {
@@ -71,8 +73,7 @@ public class ClientAufServer extends Thread {
 					setSpielerName(dataIn.readUTF());
 					System.out.println("Name wurde auf " + getSpielerName() + " gesetzt.");
 					
-					server.getPunktetafel().clientHinzufügen(this);
-					//					server.getAusgabe().sendeNeuenSpieler(getSpielerName(), 0);
+					server.getPunktetafel().clientHinzufuegen(this);
 					break;
 				case 1:
 					setAntwort(dataIn.readInt());
@@ -80,6 +81,10 @@ public class ClientAufServer extends Thread {
 				case 2:
 					setBereit(true);
 					System.out.println(getSpielerName() + " ist bereit.");
+					
+					if (server.getSpielVerhalten().getAktLevel() != null) {
+						sendeLevel(server.getSpielVerhalten().getAktLevel());
+					}
 					break;
 				default:
 					System.out.println("Falsche ID von Client!");
@@ -87,6 +92,7 @@ public class ClientAufServer extends Thread {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
+			verbindungTrennen();
 		}
 	}
 	
@@ -98,6 +104,7 @@ public class ClientAufServer extends Thread {
 			dataOut.writeInt(punktestand);
 		} catch (IOException e) {
 			e.printStackTrace();
+			verbindungTrennen();
 		}
 	}
 	
@@ -108,6 +115,7 @@ public class ClientAufServer extends Thread {
 			dataOut.writeInt(neuerPunktestand);
 		} catch (IOException e) {
 			e.printStackTrace();
+			verbindungTrennen();
 		}
 	}
 	
@@ -117,6 +125,7 @@ public class ClientAufServer extends Thread {
 			level.sende(dataOut);
 		} catch (IOException e) {
 			e.printStackTrace();
+			verbindungTrennen();
 		}
 	}
 	
@@ -126,6 +135,7 @@ public class ClientAufServer extends Thread {
 			dataOut.writeInt(antwort);
 		} catch (IOException e) {
 			e.printStackTrace();
+			verbindungTrennen();
 		}
 	}
 	
@@ -135,6 +145,7 @@ public class ClientAufServer extends Thread {
 			dataOut.writeInt(rA);
 		} catch (IOException e) {
 			e.printStackTrace();
+			verbindungTrennen();
 		}
 	}
 	
@@ -144,6 +155,7 @@ public class ClientAufServer extends Thread {
 			dataOut.writeUTF(spielername);
 		} catch (IOException e) {
 			e.printStackTrace();
+			verbindungTrennen();
 		}
 	}
 	
@@ -154,6 +166,24 @@ public class ClientAufServer extends Thread {
 			dataOut.writeUTF(spielername);
 		} catch (IOException e) {
 			e.printStackTrace();
+			verbindungTrennen();
+		}
+	}
+	
+	public void sendeGetrenntenSpieler(String spielername) {
+		try {
+			dataOut.writeInt(5);
+			dataOut.writeUTF(spielername);
+		} catch (IOException e) {
+			e.printStackTrace();
+			verbindungTrennen();
+		}
+	}
+	
+	private void verbindungTrennen() {
+		if (verbunden) {
+			verbunden = false;
+			server.trenneClient(this);
 		}
 	}
 }

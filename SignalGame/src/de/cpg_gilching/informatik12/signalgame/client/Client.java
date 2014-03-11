@@ -78,6 +78,11 @@ public class Client extends Thread {
 					clientFenster.antwortAnzeigen(spielername4, rA, richtigeAntwort);
 					break;
 				
+				case 5:
+					String spielername5 = dataIn.readUTF();
+					clientFenster.spielerEntfernen(spielername5);
+					break;
+
 				case 10:
 					Level level = Level.empfange(dataIn);
 					clientFenster.frageAnzeigen(level);
@@ -112,7 +117,6 @@ public class Client extends Thread {
 			dataOut.writeInt(1);
 			dataOut.writeInt(n);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -121,7 +125,6 @@ public class Client extends Thread {
 		try {
 			dataOut.writeInt(2);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

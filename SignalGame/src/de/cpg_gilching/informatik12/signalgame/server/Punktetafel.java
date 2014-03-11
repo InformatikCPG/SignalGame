@@ -7,7 +7,7 @@ public class Punktetafel {
 	
 	private Map<ClientAufServer, Integer> allePunkte = new HashMap<>();
 	
-	public void clientHinzufügen(ClientAufServer csa) {
+	public void clientHinzufuegen(ClientAufServer csa) {
 		// nicht doppelt einfügen
 		if (allePunkte.containsKey(csa)) {
 			return;
@@ -25,6 +25,14 @@ public class Punktetafel {
 		}
 	}
 	
+	public void clientEntfernen(ClientAufServer csa) {
+		allePunkte.remove(csa);
+		
+		for (ClientAufServer anderer : allePunkte.keySet()) {
+			anderer.sendeGetrenntenSpieler(csa.getSpielerName());
+		}
+	}
+
 	public void punkteGeben(ClientAufServer csa, int punkte) {
 		int neuePunkte = allePunkte.get(csa) + punkte;
 		allePunkte.put(csa, neuePunkte);

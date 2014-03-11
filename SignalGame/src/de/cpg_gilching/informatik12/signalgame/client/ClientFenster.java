@@ -142,6 +142,7 @@ public class ClientFenster {
 		for (int i = 0; i < spielerPanel.getComponentCount(); i++) {
 			if (spielerPanel.getComponent(i).getName().equals(spielername)) {
 				spielerPanel.remove(i);
+				spielerPanel.validate();
 			}
 		}
 	}
