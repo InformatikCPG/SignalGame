@@ -1,6 +1,7 @@
 package de.cpg_gilching.informatik12.signalgame.client;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -97,16 +98,26 @@ public class LoginFenster {
 		// ======== Verbinden end ================
 		
 		
+		Box copyBox = Box.createHorizontalBox();
+		JLabel copy = new JLabel("\u00A9 Timo Angerer, Lukas Bonauer, Philipp Kosian");
+		copy.setForeground(Color.gray);
 		
+		copyBox.add(Box.createHorizontalGlue());
+		copyBox.add(copy);
+		copyBox.add(Box.createHorizontalGlue());
+
 		usernameBox.setAlignmentX(JComponent.LEFT_ALIGNMENT);
 		ipBox.setAlignmentX(JComponent.LEFT_ALIGNMENT);
 		submitBox.setAlignmentX(JComponent.LEFT_ALIGNMENT);
+		copyBox.setAlignmentX(JComponent.LEFT_ALIGNMENT);
 		
 		hauptScreen.add(usernameBox);
 		hauptScreen.add(Box.createVerticalStrut(10));
 		hauptScreen.add(ipBox);
 		hauptScreen.add(Box.createVerticalStrut(10));
 		hauptScreen.add(submitBox);
+		hauptScreen.add(Box.createVerticalStrut(10));
+		hauptScreen.add(copyBox);
 		
 		//		hauptScreen.add(hauptScreen, BorderLayout.CENTER);
 	}
