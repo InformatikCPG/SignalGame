@@ -21,6 +21,7 @@ import de.cpg_gilching.informatik12.signalgame.shared.level.Signalquelle;
 public class LevelRenderer {
 	
 	public static final int KNOTEN_GROESSE = 32;
+	public static final int GAP = 32;
 	
 	public static BufferedImage bildGate = Helfer.bildLaden("gate.png");
 	public static BufferedImage bildTrue = Helfer.bildLaden("true.png");
@@ -35,6 +36,7 @@ public class LevelRenderer {
 	
 	private Map<Signalquelle, Punkt> gezeichnet = new HashMap<>();
 	private Map<Knoten, Integer> statikVerbindungen = new HashMap<>();
+	
 	
 	public LevelRenderer(Level level, int breite, int hoehe) {
 		this(level, breite, hoehe, false);
@@ -57,8 +59,11 @@ public class LevelRenderer {
 		gezeichnet.clear();
 		statikVerbindungen.clear();
 		
-		drawRecursive(level.wurzel, bild.getWidth() - 100, bild.getHeight() / 2);
-		drawVerbindung(bild.getWidth() - 100, bild.getHeight() / 2, bild.getWidth() + 100, bild.getHeight() / 2, 1, true);
+		int wurzelX = bild.getWidth() - 100;
+		int wurzelY = bild.getHeight() / 2;
+
+		drawRecursive(level.wurzel, wurzelX, wurzelY);
+		drawVerbindung(wurzelX, wurzelY, bild.getWidth() + 100, bild.getHeight() / 2, 1, true);
 		drawStatikquellen();
 		
 		return bild;
@@ -69,41 +74,28 @@ public class LevelRenderer {
 		
 		drawKnoten(sx, sy, inputs, node == level.wurzel);
 		
-		int yscale = (int) (Math.pow(1.8, node.getTiefe()) * 32);
-		
-		
-		//		int verzweigungen = 0;
-		//		for (Kante k : inputs)
-		//			if (!gezeichnet.containsKey(k.quelle))
-		//				verzweigungen++;
-		int verzweigungen = inputs.size();
+		int subHeight = getSubHeight(node);
+		int accHeight = 0;
 		
 		for (int i = 0, s = inputs.size(); i < s; i++) {
 			Kante k = inputs.get(i);
 			
-			int seite;
-			switch (s) {
-			case 1:
-				seite = 1;
-				break;
-			case 2:
-				seite = (i == 0 ? 0 : 2);
-				break;
-			default:
-				seite = i;
-				break;
-			}
+			int seite = getSeiteFromIndex(i, s);
 			
 			if (k.quelle instanceof Knoten) {
 				if (!gezeichnet.containsKey(k.quelle)) {
-					int nx = sx - 150 + Helfer.zufallsZahl(-10, 11);
-					int ny = sy + yscale / 2 + Math.round((i - (verzweigungen / 2.0f)) * yscale);
+					int currSub = getSubHeight((Knoten) k.quelle);
+					
+					int nx = sx - 120 + Helfer.zufallsZahl(-10, 11);
+					int ny = sy - subHeight / 2 + accHeight + currSub / 2;
+
+					accHeight += currSub + GAP;
 					
 					gezeichnet.put(k.quelle, new Punkt(nx, ny));
-					
-					drawRecursive((Knoten) k.quelle, nx, ny);
 				}
 				
+				drawRecursive((Knoten) k.quelle, gezeichnet.get(k.quelle).x, gezeichnet.get(k.quelle).y);
+
 				// Koordinaten des Input-Knotens auslesen
 				Punkt p = gezeichnet.get(k.quelle);
 				
@@ -229,4 +221,24 @@ public class LevelRenderer {
 		return seite;
 	}
 	
+	private int getSubHeight(Knoten basis) {
+		int hsum = 0;
+		int gaps = -1;
+		
+		for (Kante k : basis.getInputs()) {
+			if (k.quelle instanceof Knoten) {
+				Knoten kind = (Knoten) k.quelle;
+				hsum += getSubHeight(kind);
+				gaps++;
+			}
+		}
+		
+		if (hsum == 0)
+			hsum = KNOTEN_GROESSE * 2;
+		else if (gaps > 0)
+			hsum += gaps * GAP;
+		
+		return hsum;
+	}
+
 }

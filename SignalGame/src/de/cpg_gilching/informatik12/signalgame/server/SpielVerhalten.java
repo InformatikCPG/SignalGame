@@ -53,19 +53,23 @@ public class SpielVerhalten {
 		
 		case 5:
 			lg.setWurzelInputs(2);
-			lg.setKnotenAnzahlMin(3);
-			lg.setKnotenAnzahlMax(5);
+			lg.setKnotenAnzahlMin(4);
+			lg.setKnotenAnzahlMax(6);
 			break;
 		
 		case 10:
-			lg.setKnotenAnzahlMin(4);
-			lg.setKnotenAnzahlMax(7);
+			lg.setKnotenAnzahlMin(5);
+			lg.setKnotenAnzahlMax(8);
 			break;
 		
-		case 20:
+		case 15:
 			lg.setKnotenAnzahlMin(5);
 			lg.setKnotenAnzahlMax(10);
 			lg.setMaximalTiefe(8);
+			break;
+		
+		case 18:
+			lg.setWurzelInputs(3);
 			break;
 		}
 		

@@ -58,9 +58,9 @@ public class LevelGenerator {
 	}
 	
 	private boolean checkCond(int anzahl) {
-		if (knotenAnzahlMin > -1 && anzahl > knotenAnzahlMin)
+		if (knotenAnzahlMin > -1 && anzahl < knotenAnzahlMin)
 			return false;
-		if (knotenAnzahlMax > -1 && anzahl < knotenAnzahlMax)
+		if (knotenAnzahlMax > -1 && anzahl > knotenAnzahlMax)
 			return false;
 		
 		return true;
