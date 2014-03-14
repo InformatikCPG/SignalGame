@@ -2,7 +2,9 @@ package de.cpg_gilching.informatik12.signalgame.shared.level;
 
 import java.util.Set;
 
-
+/**
+ * Eine einfache Signalquelle, die immer angeschaltet ist.
+ */
 public class Statikquelle implements Signalquelle {
 	private static final long serialVersionUID = 1L;
 	

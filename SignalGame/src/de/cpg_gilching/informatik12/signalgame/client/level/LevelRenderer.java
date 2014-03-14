@@ -18,6 +18,9 @@ import de.cpg_gilching.informatik12.signalgame.shared.level.Knoten;
 import de.cpg_gilching.informatik12.signalgame.shared.level.Level;
 import de.cpg_gilching.informatik12.signalgame.shared.level.Signalquelle;
 
+/**
+ * Stellt ein {@link Level} dar.
+ */
 public class LevelRenderer {
 	
 	public static final int KNOTEN_GROESSE = 32;

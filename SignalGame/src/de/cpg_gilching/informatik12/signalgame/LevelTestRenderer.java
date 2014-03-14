@@ -21,6 +21,9 @@ import de.cpg_gilching.informatik12.signalgame.server.LevelGenerator;
 import de.cpg_gilching.informatik12.signalgame.shared.level.Knoten;
 import de.cpg_gilching.informatik12.signalgame.shared.level.Level;
 
+/**
+ * Test-Klasse, um auf Knopfdruck Levels generieren zu können, um den {@link LevelGenerator} und {@link LevelRenderer} zu testen.
+ */
 public class LevelTestRenderer extends JPanel {
 	private static final long serialVersionUID = 1L;
 	

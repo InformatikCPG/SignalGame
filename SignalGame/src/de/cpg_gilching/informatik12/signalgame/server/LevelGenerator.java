@@ -14,6 +14,9 @@ import de.cpg_gilching.informatik12.signalgame.shared.level.Knoten;
 import de.cpg_gilching.informatik12.signalgame.shared.level.Level;
 import de.cpg_gilching.informatik12.signalgame.shared.level.Statikquelle;
 
+/**
+ * Die magische Klasse hinter dem Spielprinzip ... Hier werden Level nach bestimmten Kriterien generiert (serverseitig).
+ */
 public class LevelGenerator {
 	
 	// Einstellungen
@@ -66,6 +69,12 @@ public class LevelGenerator {
 		return true;
 	}
 	
+	/**
+	 * Generiert ein neues Level nach den aktuellen Kriterien des Generators.<br>
+	 * Sollte nach 200 Versuchen kein gültiges Level gefunden sein, kann auch ein komplett zufälliges Level zurückgegeben werden.
+	 * 
+	 * @return das neue Level
+	 */
 	public Level generiereLevel() {
 		Knoten wurzel;
 		int anzahl;
@@ -105,6 +114,14 @@ public class LevelGenerator {
 		return wurzel;
 	}
 	
+	/**
+	 * Generiert rekursiv die Inputs zu einem Knoten und füllt diese wiederrum mit Inputs.
+	 * 
+	 * @param k der Knoten
+	 * @param d die aktuelle Tiefe des Knotens von der Wurzel aus
+	 * @param crossInputs eine Liste mit bekannten Knoten, die für Cross-Referenzen verwendet werden können
+	 * @return eine Liste an generierten Knoten
+	 */
 	private List<Knoten> _inputsGenerieren(Knoten k, int d, List<Knoten> crossInputs) {
 		// Abbruchbedingung
 		if (d >= Helfer.zufallsZahl(minimalTiefe, maximalTiefe - 1)) {

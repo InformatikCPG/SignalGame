@@ -11,8 +11,6 @@ public class Knoten implements Signalquelle {
 	private transient boolean berechnend = false;
 	private transient boolean output;
 	
-	private transient boolean erzwungen = false;
-	
 	private List<Kante> inputs = new ArrayList<>();
 	
 	public Knoten() {
@@ -29,11 +27,6 @@ public class Knoten implements Signalquelle {
 		berechneNeu();
 	}
 	
-	public void erzwingeOutput(boolean wert) {
-		erzwungen = true;
-		output = wert;
-	}
-	
 	public void berechneNeu() {
 		verarbeitet = false;
 		
@@ -42,11 +35,12 @@ public class Knoten implements Signalquelle {
 				((Knoten) k.quelle).berechneNeu();
 	}
 	
+	/**
+	 * Berechnet rekursiv den Output-Zustand des Knotens, basierend auf seinen Inputs.<br>
+	 * Der Wert wird gecacht, bis {@link #berechneNeu()} aufgerufen wird.
+	 */
 	@Override
 	public boolean getOutput() {
-		if (erzwungen)
-			return output;
-		
 		if (!verarbeitet) {
 			if (berechnend) {
 				System.err.println("circular dependency!");
@@ -68,6 +62,10 @@ public class Knoten implements Signalquelle {
 		return output;
 	}
 	
+	/**
+	 * Gibt rekursiv die Tiefe dieses Knotens zurück (= der maximale Abstand eines Kindelements).<br>
+	 * In dieser Version unbenutzt.
+	 */
 	@Override
 	public int getTiefe() {
 		if (berechnend) {
@@ -86,6 +84,11 @@ public class Knoten implements Signalquelle {
 		return d + 1;
 	}
 	
+	/**
+	 * Zählt rekursiv die gesamte Anzahl der Knoten, die ab diesem Knoten enthalten sind.
+	 * 
+	 * @param bekannt eine Menge von Knoten, die bereits gezählt wurden; dieses wird mit allen besuchten Knoten erweitert
+	 */
 	@Override
 	public int getGesamtAnzahl(Set<Knoten> bekannt) {
 		bekannt.add(this);
