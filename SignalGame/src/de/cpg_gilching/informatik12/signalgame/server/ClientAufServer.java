@@ -107,6 +107,7 @@ public class ClientAufServer extends Thread {
 			dataOut.writeInt(1);
 			dataOut.writeUTF(spielername);
 			dataOut.writeInt(punktestand);
+			dataOut.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 			verbindungTrennen();
@@ -118,6 +119,7 @@ public class ClientAufServer extends Thread {
 			dataOut.writeInt(2);
 			dataOut.writeUTF(spielername);
 			dataOut.writeInt(neuerPunktestand);
+			dataOut.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 			verbindungTrennen();
@@ -128,6 +130,7 @@ public class ClientAufServer extends Thread {
 		try {
 			dataOut.writeInt(10);
 			level.sende(dataOut);
+			dataOut.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 			verbindungTrennen();
@@ -138,6 +141,7 @@ public class ClientAufServer extends Thread {
 		try {
 			dataOut.writeInt(11);
 			dataOut.writeInt(antwort);
+			dataOut.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 			verbindungTrennen();
@@ -148,6 +152,7 @@ public class ClientAufServer extends Thread {
 		try {
 			dataOut.writeInt(12);
 			dataOut.writeInt(rA);
+			dataOut.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 			verbindungTrennen();
@@ -158,6 +163,7 @@ public class ClientAufServer extends Thread {
 		try {
 			dataOut.writeInt(3);
 			dataOut.writeUTF(spielername);
+			dataOut.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 			verbindungTrennen();
@@ -169,6 +175,7 @@ public class ClientAufServer extends Thread {
 			dataOut.writeInt(4);
 			dataOut.writeInt(rA);
 			dataOut.writeUTF(spielername);
+			dataOut.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 			verbindungTrennen();
@@ -179,6 +186,7 @@ public class ClientAufServer extends Thread {
 		try {
 			dataOut.writeInt(5);
 			dataOut.writeUTF(spielername);
+			dataOut.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 			verbindungTrennen();

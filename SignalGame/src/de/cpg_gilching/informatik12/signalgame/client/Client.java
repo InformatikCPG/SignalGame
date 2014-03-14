@@ -116,6 +116,7 @@ public class Client extends Thread {
 		try {
 			dataOut.writeInt(1);
 			dataOut.writeInt(n);
+			dataOut.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -124,6 +125,7 @@ public class Client extends Thread {
 	public void sendeBereit() {
 		try {
 			dataOut.writeInt(2);
+			dataOut.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

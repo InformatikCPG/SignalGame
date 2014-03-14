@@ -83,6 +83,7 @@ public class SpielVerhalten {
 		
 		case 18:
 			lg.setWurzelInputs(3);
+			lg.setMaximalTiefe(10);
 			break;
 		}
 		
